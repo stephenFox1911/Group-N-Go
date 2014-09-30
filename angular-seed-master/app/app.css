@@ -1,0 +1,39 @@
+/* app css stylesheet */
+
+.nav-pills {
+border-bottom: 0px;
+border-top: 1px solid #ddd;
+position: absolute;
+bottom: 0;
+width: 100%
+}
+
+.nav-pills > li {
+margin-bottom:0;
+margin-top:-1px;
+width: 25%;
+text-align: center;
+}
+
+.nav-pills > li > a {
+padding-top: 8px;
+padding-bottom: 8px;
+line-height: 20px;
+border: 1px solid transparent;
+-moz-border-radius:0px;
+-webkit-border-radius:0px;
+border-radius:0px;
+-moz-border-radius-bottomright: 5px;
+-webkit-border-bottom-right-radius: 5px;
+border-bottom-right-radius: 5px;
+-moz-border-radius-bottomleft: 5px;
+-webkit-border-bottom-left-radius: 5px;
+border-bottom-left-radius: 5px;
+}
+.nav-pills > .active > a, .nav-pills > .active > a:hover, .nav-pills > .active > a:focus {
+color: #555555;
+cursor: default;
+background-color: #ffffff;
+border: 1px solid #ddd;
+border-top-color: transparent;
+}
