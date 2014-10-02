@@ -31,7 +31,7 @@ router.use(function(req, res, next) {
 	next(); // make sure we go to the next routes and don't stop here
 });
 
-router.route('/Users')
+router.route('/users')
 
 	// create a User (accessed at POST http://localhost:8080/api/Users)
 	.post(function(req, res) {
@@ -39,21 +39,23 @@ router.route('/Users')
 		//create the user here
 		console.log('Creating User');
 
-		res.json({ message: 'Bear created!' });
+		res.json({ message: 'User created!' });
 	});
 		
+	// The syntax for this .get is wrong somehow. each 'router.route' only seems to take one function at a time
+		
 	// get all the Users (accessed at GET http://localhost:8080/api/Users)
-	.get(function(req, res) {
-		//return all of the users
-		console.log('returning Users');
-		res.json(ListofUsers);
-	});
+	//.get(function(req, res) {
+	//	//return all of the users
+	//	console.log('returning Users');
+	//	res.json(ListofUsers);
+	//});
 
-router.route('/Users/:user_id')
+router.route('/users/:userId')
 
 	.get(function(req, res) {
 		//return single user by id
-		var ret = somethingSomething;
+		var ret = 'somethingSomething';
 		res.json(ret);
 	});
 
