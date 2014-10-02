@@ -1,4 +1,4 @@
-BuzzTrip
+Group-N-Go
 ========
 
 Helping students navigate the Georgia Tech campus safely
