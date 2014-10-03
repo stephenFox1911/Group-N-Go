@@ -62,7 +62,7 @@ router.route('/users/:userId')
 
 // test route to make sure everything is working (accessed at GET http://localhost:8080/api)
 router.get('/', function(req, res) {
-	res.render('index.html',{requestIP: req.ip});
+	res.render('app/index.html',{requestIP: req.ip});
 	//res.json({ message: 'Hello World!' });	
 });
 
