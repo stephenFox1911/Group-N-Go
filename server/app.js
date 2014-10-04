@@ -18,7 +18,7 @@ var bodyParser = require('body-parser');
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.engine('html', require('ejs').renderFile);
-var port = process.env.PORT || 3000; 		// set our port
+var port = process.env.PORT || 80; 		// set our port
 
 // ROUTES FOR OUR API
 // =============================================================================
