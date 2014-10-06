@@ -2,7 +2,9 @@ var express = require('express');
 var rest = require('restler');
 var crypto = require('crypto');
 var router = express.Router();
-var UserDAO = require('../DAO/userDAO').UserDAO;
+var squel = require('squel');
+var connection = require('../DAO/connection');
+squel.useFlavour('mysql');
 
 function rand(rlen){
     var text = "";
@@ -39,14 +41,28 @@ router.post('/api/users/', function(req, res) {
 	    var shasum = crypto.createHash('sha256');
 	    var salt = rand(10);
 	    shasum.update(salt + h.pass);
-	    var jsondata = {
-		uname:  h.uname,
-	        pass: shasum.digest('hex'),
-	        salt: salt,
-	        firstname: h.fname,
-	  	lastname: h.lname
-	    };
-            res.send(jsondata);
+            connection.connect();
+	    var sql = squel.insert()
+		.into("Users")
+		.set("Username", h.uname)
+		.set("PasswordHash", shasum.digest('hex'))
+		.set("Salt", salt)
+		.set("FirstName", h.fname)
+		.set("LastName", h.lname)
+		.toParam();
+
+	    var error;
+	    connection.query(sql.text, sql.values, function(err, results){
+		if(err){
+			console.log("Error Adding user");
+			console.log(err)
+			res.send({success: 'False', error: err});
+		} else {
+		    console.log("Added user");
+           	    res.send({success: 'True'});
+		}
+	    });
+	    connection.end();
 });
 
 // get user by userid (accessed at GET http://localhost:80/api/users)
