@@ -16,6 +16,7 @@
     "errorhandler": "^1.2.0",
     "express": "latest",
     "express-session": "^1.8.2",
+    "forever": "latest",
     "method-override": "^2.2.0",
     "mysql": "latest",
     "restler": "^3.2.2",

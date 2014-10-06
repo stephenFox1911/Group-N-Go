@@ -1,0 +1,24 @@
+{
+  "name": "CroudComputing",
+  "version": "0.0.1",
+  "main": "app.js",
+  "author": "George Stipick",
+  "repository": "https://github.com/swimmadude66/CrowdComputing.git",
+  "scripts": {
+    "start": "nodemon app.js"
+  },
+  "devDependencies": {
+    "nodemon": "latest"
+  },
+  "dependencies": {
+    "body-parser": "^1.8.2",
+    "ejs": "^1.0.0",
+    "errorhandler": "^1.2.0",
+    "express": "latest",
+    "express-session": "^1.8.2",
+    "method-override": "^2.2.0",
+    "mysql": "latest",
+    "restler": "^3.2.2",
+    "squel": "^3.8.1"
+  }
+}

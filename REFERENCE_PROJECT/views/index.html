@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+
+<html ng-app="crowdComp">
+    <head>
+        <title>Welcome to CrowdComputing!</title>
+        <link rel="icon" type="image/png" href="images/crowdComputingIcon.png">
+        <link rel="stylesheet" href="css/index.css">
+        <script src="scripts/libs/angular.min.js"></script>
+        <script src="scripts/libs/angular-route.min.js"></script>
+        <script src="scripts/app.js"></script>
+
+        <!--Controllers-->
+        <script src="scripts/login.js"></script>
+        <script src="scripts/home.js"></script>
+
+    </head>
+    <body>
+        <div class="header">
+            <img class="headerImg" src="images/crowdComputingSVG.png">
+            <p class="pageTitle">CrowdComputing</p>
+        </div>
+        <div ng-view></div>
+    </body>
+</html>
