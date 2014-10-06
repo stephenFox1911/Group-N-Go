@@ -8,11 +8,9 @@ squel.useFlavour('mysql');
 
 function rand(rlen){
     var text = "";
-    var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-
+    var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789`~!@#$%^&*()_+-=[]{};:<,>.?/";
     for( var i=0; i < rlen; i++ )
         text += possible.charAt(Math.floor(Math.random() * possible.length));
-
     return text;
 }
 
@@ -41,7 +39,6 @@ router.post('/api/users/', function(req, res) {
 	    var shasum = crypto.createHash('sha256');
 	    var salt = rand(10);
 	    shasum.update(salt + h.pass);
-            connection.connect();
 	    var sql = squel.insert()
 		.into("Users")
 		.set("Username", h.uname)
@@ -60,17 +57,58 @@ router.post('/api/users/', function(req, res) {
            	    res.send({success: 'True'});
 		}
 	    });
-	    connection.end();
 });
 
 // get user by userid (accessed at GET http://localhost:80/api/users)
 
-router.get('/api/users/:userid', function(req, res) {
+router.get('/api/users/', function(req, res) {
 	     //return all of the users
              console.log('returning Users');
-             b = req.body;
-	     res.send(b);
+            var sql = squel.select()
+                .from("Users")
+		.toString();
+            connection.query(sql, function(err, results){
+                if(err){
+                        console.log(err)
+                        res.send({success: 'False', error: err});
+                } else {
+                    console.log("Added user");
+                    return res.json(results);
+                }
+            });
 });
 
+router.post('/api/login/', function(req, res){
+    //attempt to login user
+    h = req.headers;
+    var sql = squel.select()
+        .from("Users")
+        .field("Username")
+        .field("PasswordHash")
+        .field("Salt")
+	.where("Username = ?", h.uname)
+	.limit(1)
+        .toParam();
+    connection.query(sql.text, sql.values, function(err, rows){
+	if(err){
+            console.log("Error Adding user");
+            console.log(err)
+            return res.send({success: 'False', error: err});
+	} else {
+            var salt = rows[0].Salt;
+	    var passwrd = rows[0].PasswordHash;
+	    var shasum = crypto.createHash('sha256');
+	    shasum.update(salt + h.pass);
+	    if(shasum.digest('hex') == passwrd){
+	        console.log('Logging in user: ' + h.uname);
+		return res.send({success: 'True'});
+	    }
+	    else{
+		console.log('Invalid Pass');
+		return res.send({success: 'False', message: 'passwords do not match'});
+	    }
+        }
+    });
+});
 
 module.exports = router;
