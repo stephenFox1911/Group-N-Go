@@ -1,2 +1,4 @@
 #!/bin/bash
-forever start -c nodemon app.js
+forever stopall
+forever start -w -e ./logs/errors.log -o ./logs/output.log app.js
+

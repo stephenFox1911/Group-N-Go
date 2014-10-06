@@ -50,8 +50,6 @@ router.post('/api/users/', function(req, res) {
 		.set("FirstName", h.fname)
 		.set("LastName", h.lname)
 		.toParam();
-
-	    var error;
 	    connection.query(sql.text, sql.values, function(err, results){
 		if(err){
 			console.log("Error Adding user");
