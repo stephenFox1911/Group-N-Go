@@ -23,9 +23,9 @@ var port = process.env.PORT || 80; 		// set our port
 // ROUTES FOR OUR API
 // =============================================================================
 var login = require('./routes/login.js');
-//var trips = require('./routes/trips.js');
+var trips = require('./routes/trips.js');
 app.use(login);
-//app.use(trips);
+app.use(trips);
 
 //this should fire every single time there is a request
 //router.use(function(req, res, next) {
