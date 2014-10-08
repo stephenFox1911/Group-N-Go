@@ -44,10 +44,10 @@ controller('ModalInstanceCtrl', function ($scope, $modalInstance, $log, $http) {
 		
 		var request = $http({
             method: 'POST',
-            url: 'http://www.corsproxy.com/groupngo.website/api/trips',
+            url: 'http://groupngo.website/api/trips',
 			headers: {
 			    'slocation': $scope.slocation,
-				'elocation': $scope.elocation
+			    'elocation': $scope.elocation
 			}
         });
         
