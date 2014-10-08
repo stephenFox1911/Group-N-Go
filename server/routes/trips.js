@@ -13,9 +13,14 @@ router.get('/', function(req, res) {
 //returns all active trips
 router.get('/api/trips/', function(req, res) {
         var sql = squel.select()
+	    .field("Trips.ID")
+	    .field("sl.Name", "sname")
+	    .field("el.Name", "ename")
             .from("Trips")
             .where("Active = 1")
-		.toString();
+            .join("Locations", "sl", "Trips.StartLocationID = sl.ID")
+            .join("Locations", "el", "Trips.EndLocationID = el.ID")
+   	    .toString();
 			connection.query(sql, function(err, results){
 	            if(err){
 	                console.log(err)
