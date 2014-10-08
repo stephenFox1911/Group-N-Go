@@ -41,17 +41,18 @@ router.post('/api/trips/', function(req, res) {
 			squel.select()
 			.field("ID")
 			.from("Locations")
-			.where("Name like ?", "%" + h.slocation + "%")
+			.where("UPPER(Name) like ?","%"+h.slocation.toUpperCase()+"%")
 			.limit(1)
 		)
 		.set("EndLocationID",
 			squel.select()
 			.field("ID")
 			.from("Locations")
-			.where("Name like ?", "%" + h.elocation + "%")
+			.where("UPPER(Name) like ?", "%"+h.elocation.toUpperCase()+"%")
 			.limit(1)
 		)
 		.toString();
+//	    console.log(sql);
 	    connection.query(sql, function(err, results){
 		if(err){
 			console.log("Error Adding trip");
@@ -59,7 +60,7 @@ router.post('/api/trips/', function(req, res) {
 			res.send({success: 'False', error: err});
 		} else {
 		    console.log("Added trip");
-           	    res.send({success: 'True'});
+         	    res.send({success: 'True'});
 		}
 	    });
 });

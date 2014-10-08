@@ -14,5 +14,5 @@ mv logs/output_2.log logs/output_3.log
 mv logs/output_1.log logs/output_2.log
 mv logs/output.log logs/output_1.log
 
-forever start -w -e logs/errors.log -o logs/output.log app.js
+forever start -w --watchIgnore *.log  -e logs/errors.log -o logs/output.log app.js
 
