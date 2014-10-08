@@ -1,1 +1,16 @@
-<p>This is the Message list.</p>
+<div class="container">
+
+	<ul class="media-list">
+	  <li class="media" ng-repeat="trip in trips">
+	<!--
+	    <a class="pull-left" href="#">
+	      <img class="media-object" src="..." alt="...">
+	    </a>
+	-->
+	    <div class="media-body">
+	      <h4 class="media-heading">Trip ID: {{trip.ID}}</h4>
+	      <p>Start Location ID: {{trip.StartLocationID}}, End Location ID: {{trip.EndLocationID}}</p>
+	    </div>
+	  </li>
+	</ul>
+</div>

@@ -12,17 +12,18 @@ config(['$routeProvider', function($routeProvider) {
 	$routeProvider.otherwise({redirectTo: '/view1'});
 }]).
 controller('NavCtrl', function ($scope, $modal, $log) {
+
 	$scope.open = function (size) {
 
-    var modalInstance = $modal.open({
-      templateUrl: 'find.html',
-      controller: 'ModalInstanceCtrl',
-      size: size,
-      resolve: {
-        items: function () {
-          return $scope.items;
-        }
-      }
+	    var modalInstance = $modal.open({
+	      templateUrl: 'find.html',
+	      controller: 'ModalInstanceCtrl',
+	      size: size,
+	      resolve: {
+	        items: function () {
+	          return $scope.items;
+	        }
+	      }
     });
 
     modalInstance.result.then(function (selectedItem) {
@@ -33,11 +34,38 @@ controller('NavCtrl', function ($scope, $modal, $log) {
   };
 }).
 
-controller('ModalInstanceCtrl', function ($scope, $modalInstance) {
+controller('ModalInstanceCtrl', function ($scope, $modalInstance, $log, $http) {
 
-	$scope.ok = function () {
+	$scope.searchGroup = function() {
+	
+		$log.info("searching");
+		$log.info($scope.slocation);
+		$log.info($scope.elocation);
+		
+		var request = $http({
+            method: 'POST',
+            url: 'http://www.corsproxy.com/groupngo.website/api/trips',
+			headers: {
+			    'slocation': $scope.slocation,
+				'elocation': $scope.elocation
+			}
+        });
+        
+        request.success( function(data) {
+
+        	$log.info('posted');
+        	
+        	$scope.data = data;
+        	
+        });
+        
+        request.error( function(data, status){
+	       $log.info(status); 
+        });
+		
 		$modalInstance.close();
-	};
+
+	}
 
 	$scope.cancel = function () {
 		$modalInstance.dismiss('cancel');
