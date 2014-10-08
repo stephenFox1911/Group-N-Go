@@ -9,7 +9,7 @@
 var express    = require('express'); 		// call express
 var app        = express(); 			// define our app using express
 var bodyParser = require('body-parser');
-
+var path       = require('path');
 //connect to DataBase
 //define schemas, other stuff to make DB useable
 
@@ -17,7 +17,9 @@ var bodyParser = require('body-parser');
 // this will let us get the data from a POST
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
+app.set('view engine','html');
 app.engine('html', require('ejs').renderFile);
+app.use(express.static(path.join(__dirname, 'views')));
 var port = process.env.PORT || 80; 		// set our port
 
 // ROUTES FOR OUR API

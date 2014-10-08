@@ -1,4 +1,18 @@
 #!/bin/bash
 forever stopall
-forever start -w -e /home/repos/Group-N-Go/server/logs/errors.log -o /home/repos/Group-N-Go/server/logs/output.log /home/repos/Group-N-Go/server/app.js
+cd /home/repos/Group-N-Go/server/
+
+mv logs/errors_4.log logs/errors_5.log
+mv logs/errors_3.log logs/errors_4.log
+mv logs/errors_2.log logs/errors_3.log
+mv logs/errors_1.log logs/errors_2.log
+mv logs/errors.log logs/errors_1.log
+
+mv logs/output_4.log logs/output_5.log
+mv logs/output_3.log logs/output_4.log
+mv logs/output_2.log logs/output_3.log
+mv logs/output_1.log logs/output_2.log
+mv logs/output.log logs/output_1.log
+
+forever start -w -e logs/errors.log -o logs/output.log app.js
 

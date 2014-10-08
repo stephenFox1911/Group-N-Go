@@ -1,4 +1,9 @@
 /server/node_modules
 /server/views/node_modules
+/server/views/bower_components
 *.log
 
+
+*.md
+
+*.md
