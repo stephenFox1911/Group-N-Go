@@ -1,4 +1,5 @@
-/server/*_modules
-/server/views/*_modules
+/server/node_modules
+/server/views/node_modules
+/server/views/bower_components
 *.log
 
