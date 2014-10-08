@@ -1,4 +1,4 @@
-/server/node_modules
-/server/views/node_modules
+/server/*_modules
+/server/views/*_modules
 *.log
 

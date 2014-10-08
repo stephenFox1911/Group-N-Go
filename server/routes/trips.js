@@ -37,10 +37,22 @@ router.post('/api/trips/', function(req, res) {
 
       var sql = squel.insert()
 		.into("Trips")
-		.set("StartLocationID", h.slocation)
-		.set("EndLocationID", h.elocation)
-		.toParam();
-	    connection.query(sql.text, sql.values, function(err, results){
+		.set("StartLocationID",
+			squel.select()
+			.field("ID")
+			.from("Locations")
+			.where("Name like ?", "%" + h.slocation + "%")
+			.limit(1)
+		)
+		.set("EndLocationID",
+			squel.select()
+			.field("ID")
+			.from("Locations")
+			.where("Name like ?", "%" + h.elocation + "%")
+			.limit(1)
+		)
+		.toString();
+	    connection.query(sql, function(err, results){
 		if(err){
 			console.log("Error Adding trip");
 			console.log(err)

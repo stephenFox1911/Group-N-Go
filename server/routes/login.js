@@ -16,7 +16,7 @@ function rand(rlen){
 
 // return angular front end
 router.get('/', function(req, res) {
-        res.render('app/index.html',{requestIP: req.ip});
+        res.render('index.html',{requestIP: req.ip});
 });
 
 
