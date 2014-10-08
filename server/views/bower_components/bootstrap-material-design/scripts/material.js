@@ -2,8 +2,8 @@
 
 $(function (){
 
-    if (typeof ripples == "object") {
-        ripples.init(".btn:not(.btn-link), .navbar a:not(.withoutripple), .nav-tabs a:not(.withoutripple), .withripple");
+    if (ripples) {
+        ripples.init(".btn:not(.btn-link), .navbar a, .nav-tabs a, .withripple");
     }
 
     var initInputs = function() {

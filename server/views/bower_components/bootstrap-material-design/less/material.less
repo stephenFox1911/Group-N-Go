@@ -1,11 +1,12 @@
+// out: ../css-compiled/material.css
 // Material Theme 0.0.1
 // -----------------------------------------------------
 
-@import "_variables.less";
-@import "_mixins.less";
-@import "_icons-material-design.less";
-@import "_animations.less";
-@import "_shadows.less";
+@import "variables.less";
+@import "mixins.less";
+@import "prefixer.less";
+@import "animations.less";
+@import "shadows.less";
 
 body {
     background-color: #EEEEEE;
@@ -22,19 +23,19 @@ body, h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
 }
 
 // Well and Jumbotrons
-@import "_welljumbo.less";
+@import "welljumbo.less";
 
 // Buttons
-@import "_buttons.less";
+@import "buttons.less";
 
 // Checkboxes
-@import "_checkboxes.less";
+@import "checkboxes.less";
 
 // Radios
-@import "_radios.less";
+@import "radios.less";
 
 // Text inputs
-@import "_inputs.less";
+@import "inputs.less";
 
 legend {
     border-bottom: 0;
@@ -56,10 +57,10 @@ legend {
 }
 
 // Lists
-@import "_lists.less";
+@import "lists.less";
 
 // Navbar
-@import "_navbar.less";
+@import "navbar.less";
 
 .dropdown-menu {
     border: 0;
@@ -77,10 +78,10 @@ legend {
 }
 
 // Alerts
-@import "_alerts.less";
+@import "alerts.less";
 
 // Progress bar
-@import "_progress.less";
+@import "progress.less";
 
 // Typography
 .text-warning {
@@ -99,14 +100,13 @@ legend {
     color: @btn-info;
 }
 
-@import "_tabs.less";
+@import "tabs.less";
 
-@import "_popups.less";
+@import "popups.less";
 
-@import "_icons.less";
+@import "icons.less";
 
 
 // External plugins
-@import "_plugin-snackbarjs.less";
-@import "_plugin-nouislider.less";
-@import "_plugin-selectize.less";
+@import "plugin-snackbarjs.less";
+@import "plugin-nouislider.less";

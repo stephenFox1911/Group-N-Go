@@ -1,16 +1,14 @@
 /* Copyright 2014+, Federico Zivolo, LICENSE at https://github.com/FezVrasta/bootstrap-material-design/blob/master/LICENSE.md */
 /* globals CustomEvent */
 
-window.ripples = {
+var ripples = {
     init : function(withRipple) {
         "use strict";
 
         // Cross browser matches function
-        function matchesSelector(domElement, selector) {
-            var matches = domElement.matches || domElement.matchesSelector || domElement.webkitMatchesSelector ||
-                domElement.mozMatchesSelector ||
-                    domElement.msMatchesSelector || domElement.oMatchesSelector;
-            return matches.call(domElement, selector);
+        function matchesSelector(dom_element, selector) {
+            var matches = dom_element.matches || dom_element.matchesSelector || dom_element.webkitMatchesSelector || dom_element.mozMatchesSelector || dom_element.msMatchesSelector || dom_element.oMatchesSelector;
+            return matches.call(dom_element, selector);
         }
 
         // animations time
@@ -73,6 +71,7 @@ window.ripples = {
         };
 
         var rippleOut = function($ripple) {
+            console.log($ripple);
             // Clear previous animation
             $ripple.className = "ripple ripple-on ripple-out";
 
@@ -110,19 +109,12 @@ window.ripples = {
         // init RippleJS and start ripple effect on mousedown
         bind("mouseover", withRipple, rippleInit);
 
+        console.log(withRipple);
         // start ripple effect on mousedown
-        bind("mousedown", ".ripple-wrapper", function(e, $ripple) {
-            // Start ripple only on left or middle mouse click
-            if (e.which === 1 || e.which === 2) {
-                rippleStart(e, $ripple);
-            }
-        });
+        bind("mousedown", ".ripple-wrapper", rippleStart);
         // if animation ends and user is not holding mouse then destroy the ripple
         bind("rippleEnd", ".ripple-wrapper .ripple", function(e, $ripple) {
-
-            var $ripples = $ripple.parentNode.getElementsByClassName("ripple");
-
-            if (!mouseDown || ( $ripples[0] == $ripple && $ripples.length > 1)) {
+            if (!mouseDown) {
                 rippleOut($ripple);
             }
         });
