@@ -35,13 +35,13 @@
   <script src="./bower_components/html5-boilerplate/js/vendor/modernizr-2.6.2.min.js"></script>
 </head>
 <body>
-  <nav class="nav navbar navbar-default" ng-controller="NavCtrl">
+  <nav class="nav navbar navbar-default navbar-fixed-top" ng-controller="NavCtrl">
     <a class="navbar-brand" href="#">Group'n'Go</a>
 
 	<a href="#" class="btn btn-dedault btn-raised" ng-click="open()">Find a Group</a>
   </nav>
 
-  <div ng-view></div>
+  <div ng-view class="view"></div>
 
   <ul class="nav nav-tabs" vertical="false">
     <li><a href="#/view1" class="btn btn-primary btn-raised">Trips</a></li>
@@ -50,56 +50,31 @@
     <li><a href="#/view2" class="btn btn-primary btn-raised">Settings</a></li>
   </ul>
 
-<!--
-  <div class="tab-row row">
-	  <div class="col-xs-3">
-	  	<a href="#/view1">Messages</a>
-	  </div>
-	  <div class="col-xs-3">
-	  
-	  </div>	  
-	  <div class="col-xs-3">
-	  
-	  </div>
-	  <div class="col-xs-3">
-	  
-	  </div>
-  </div>
--->
-
-<!--
-  <tabset justified="true" type="pills">
-    <tab heading="Messages"></tab>
-    <tab heading="Map"></tab>
-    <tab heading="Buddies"></tab>
-    <tab heading="Settings"></tab>
-  </tabset>
--->
-
   <!--[if lt IE 7]>
       <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
   <![endif]-->
 
-  
-
-  <!-- <div>Angular seed app: v<span app-version></span></div> -->
-
   <!-- In production use:
   <script src="//ajax.googleapis.com/ajax/libs/angularjs/x.x.x/angular.min.js"></script>
   -->
-  
+
   <script src="./bower_components/angular/angular.js"></script>
   <script src="./bower_components/angular-route/angular-route.js"></script>
   <script src="./bower_components/angular-bootstrap/ui-bootstrap-tpls.min.js"></script>
-  <script src="./app.js"></script>
-  <script src="./view1/view1.js"></script>
-  <script src="./view2/view2.js"></script>
+
   <script src="./components/version/version.js"></script>
   <script src="./components/version/version-directive.js"></script>
   <script src="./components/version/interpolate-filter.js"></script>
   <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
 
+  <script src="//cdnjs.cloudflare.com/ajax/libs/bluebird/1.2.2/bluebird.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/lodash.js/2.4.1/lodash.min.js" type="text/javascript"></script>
+  <script src="http://rawgit.com/angular-ui/angular-google-maps/master/dist/angular-google-maps.js"></script>
+
+  <script src="./app.js"></script>
+  <script src="./view1/view1.js"></script>
+  <script src="./view2/view2.js"></script>
   <script src="./bower_components/bootstrap-material-design/scripts/ripples.js"></script>
   <script src="./bower_components/bootstrap-material-design/scripts/material.js"></script>
 

@@ -53,6 +53,26 @@ border-top-color: transparent;
 	padding-right: 10px !important;
 }
 
+.angular-google-map {
+	height: 100%;
+}
+
+.angular-google-map-container { height: 100%; }
+
+.map_canvas {
+	height: 100%;
+	width: 100%;
+	margin: 0;
+}
+
+.view {
+	height: 100%;
+}
+
+html, body {
+	height: 100%;
+	margin: 0;
+}
 /*
 .navbar-right {
 	position: absolute;
