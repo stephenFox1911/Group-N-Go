@@ -65,6 +65,7 @@ router.get('/api/users/', function(req, res) {
 	     //return all of the users
              console.log('returning Users');
             var sql = squel.select()
+		.field("UserName")
                 .from("Users")
 		.toString();
             connection.query(sql, function(err, results){
