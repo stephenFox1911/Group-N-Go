@@ -24,10 +24,10 @@ angular.module('myApp.view2', [
 .controller('View2Ctrl', ['$scope', 'GoogleMapApi'.ns(), '$log', function($scope, GoogleMapApi, $log) {
 	$scope.map = {
 	    center: {
-	        latitude: 45,
-	        longitude: -73
+	        latitude:33.777420,
+	        longitude:-84.397850
 	    },
-	    zoom: 8
+	    zoom:16
 	};
     GoogleMapApi.then(function(maps) {
     	$log.info("google maps is ready");
