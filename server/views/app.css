@@ -69,9 +69,17 @@ border-top-color: transparent;
 	height: 100%;
 }
 
+.view > .content {
+	padding-bottom: 38px;
+}
+
 html, body {
 	height: 100%;
 	margin: 0;
+}
+
+body {
+	padding-top: 60px;
 }
 /*
 .navbar-right {
