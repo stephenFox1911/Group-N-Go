@@ -1,7 +1,6 @@
 __author__ = 'Adam'
 
 import re
-import json
 import requests
 
 api_key = "AIzaSyCDpJr0yyMkMJ4hjbDycjoNTbuVbHWK-c0"
@@ -17,13 +16,13 @@ def getLatLng(addr):
     location = re.sub(r'.*?(location[^_]*?}).*$', r'\1', str(jsonobj))
     location = re.sub(r'(.*?\{)|(\}.*)', "", location)
     coords = re.split(r'\s*,\s*', location)
-    lat = re.sub(r'[^\d\.]', "", coords[0])
-    lng = re.sub(r'[^\d\.]', "", coords[1])
-    return "\""+lat+"\"" + ', ' + "\"" + lng + "\""
+    lattitude = re.sub(r'[^\d\.-]', "", coords[0])
+    longitude = re.sub(r'[^\d\.-]', "", coords[1])
+    return lattitude, longitude
 
 
 def createSQL(valuelist):
-    start = "INSERT INTO `adamyost_GTSafety`.`Locations` (`Name`, `Address`, `Lat`, `Lng`) VALUES "
+    start = "INSERT INTO `groupngo`.`Locations` (`Name`, `Address`, `Lat`, `Lng`) VALUES "
     for value in valuelist:
         start += value + ", "
     SQL = re.sub(r', $', ';', start)
@@ -39,8 +38,9 @@ if __name__ == "__main__":
         parts = re.split(r'\s+\|\s+', line)
         name = parts[0].strip()
         address = parts[1].strip()
-        locstring = getLatLng(address)
-        valstring = "(\"" + name + "\", \"" + address + "\", " + locstring + ")"
+        lat, lng = getLatLng(address)
+        valstring = "(\"" + name + "\", \"" + address + "\", " + lat + ", " + lng + ")"
+        print(valstring)
         values.append(valstring)
         line = fin.readline()
     fin.close()
