@@ -21,7 +21,7 @@ angular.module('myApp.view2', [
     });
 }])
 
-.controller('View2Ctrl', ['$scope', 'GoogleMapApi'.ns(), '$log', '$http', function($scope, GoogleMapApi, $log, $http) {
+.controller('View2Ctrl', ['$scope', 'GoogleMapApi'.ns(), '$log', '$http', 'getTrips', function($scope, GoogleMapApi, $log, $http, getTrips) {
 	$scope.map = {
 	    center: {
 	        latitude:33.777420,
@@ -29,27 +29,31 @@ angular.module('myApp.view2', [
 	    },
 	    zoom:16
 	};
+
     GoogleMapApi.then(function(maps) {
     	$log.info("google maps is ready");
-
-
     });
 
-    // $scope.trips = [];
-	// $log.info("loading trips");
+    $scope.trips = [];
 	
 	$scope.testtrips = [{
 		ID: 0,
-		scoords: {
+		slocation: {
+			coords: {
 	        latitude:33.777420,
-	        longitude:-84.397850
+	        longitude:-84.397850				
+			}
+
 		}
 	},
 	{
 		ID: 1,
-		scoords: {
+		slocation: {
+			coords: {
 	        latitude:33.777520,
-	        longitude:-84.397850
+	        longitude:-84.397970				
+			}
+
 		}
 	}];
 
@@ -59,16 +63,19 @@ angular.module('myApp.view2', [
 	})	
 	.success(function(data){
 		// $log.info("got trips");
+
 		$scope.trips = data;
 
-		for (var i = 0; i < $scope.trips.length; i++) {
-  			$scope.trips[i].scoords = {
-  				latitude: $scope.trips[i].slng,
-  				longitude: -$scope.trips[i].slat
-  			};
-		};
+		// for (var i=0; i < $scope.trips.length; i++){
+		// 	$scope.trips[i].coords = {
+		// 		latitude: $scope.trips[i].slocation.coords.latitue,
+		// 		longitude: $scope.trips[i].slocation.coords.longitude
+		// 	}
+		// 	console.log($scope.trips[i].coords);
+		// }
 
-		$log.info($scope.trips);
+		$log.info(data);
+
 	})
 	.error(function(data, status){
 		$log.info(status);

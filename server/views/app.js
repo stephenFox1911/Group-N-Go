@@ -15,6 +15,10 @@ config(['$routeProvider', function($routeProvider) {
 
 controller('NavCtrl', function ($scope, $modal, $log) {
 
+	// getTrips.loadTrips();
+
+	// $scope.trips = getTrips.allTrips();
+
 	$scope.open = function (size) {
 
 	    var modalInstance = $modal.open({
@@ -72,4 +76,30 @@ controller('ModalInstanceCtrl', function ($scope, $modalInstance, $log, $http) {
 	$scope.cancel = function () {
 		$modalInstance.dismiss('cancel');
 	};
+});
+
+app.factory('getTrips', function($log, $http) {
+
+	var trips = [];
+
+	return {
+		loadTrips: function() {
+			$log.info("getting trips...");
+			$http({
+				method: 'GET',
+				url: "http://www.corsproxy.com/groupngo.website/api/trips"
+			})	
+			.success(function(data){
+				trips = data;
+				$log.info(trips);
+			})
+			.error(function(data, status){
+				$log.info(status);
+			});
+		},
+
+		allTrips: function() {
+			return trips;
+		}
+	}
 });

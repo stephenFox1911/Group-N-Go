@@ -1,16 +1,29 @@
 <div class="container content">
+		<div class="list-group" style="margin-top:15px">
+			<div ng-repeat="trip in trips">
+				<a href="#">
+				<div class="list-group-item">
+			        <div class="row-action-primary">
+			            <i class=""></i>
+			        </div>
+			        <div class="row-content">
+			            <div class="action-secondary"><i class="icon-material-info"></i></div>
+			            <h4 class="list-group-item-heading">Trip ID: {{trip.ID}}</h4>
+			            <p class="list-group-item-text">Start location: {{trip.slocation.name}}</p>
+			            <p class="list-group-item-text">End location: {{trip.elocation.name}}</p>
+			        </div>
+				</div>
+				<div class="list-group-separator"></div>
+				</a>
+			</div>
+		</div>
 
-	<ul class="media-list">
+<!-- 	<ul class="media-list">
 	  <li class="media" ng-repeat="trip in trips">
-	<!--
-	    <a class="pull-left" href="#">
-	      <img class="media-object" src="..." alt="...">
-	    </a>
-	-->
 	    <div class="media-body">
 	      <h4 class="media-heading">Trip ID: {{trip.ID}}</h4>
-	      <p>Start Location: {{trip.sname}}, End Location: {{trip.ename}}</p>
+	      <p>Start Location: {{trip.slocation.name}}, End Location: {{trip.elocation.name}}</p>
 	    </div>
 	  </li>
-	</ul>
+	</ul> -->
 </div>
