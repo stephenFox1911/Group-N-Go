@@ -62,17 +62,8 @@ angular.module('myApp.view2', [
 		url: "http://www.corsproxy.com/groupngo.website/api/trips"
 	})	
 	.success(function(data){
-		// $log.info("got trips");
 
 		$scope.trips = data;
-
-		// for (var i=0; i < $scope.trips.length; i++){
-		// 	$scope.trips[i].coords = {
-		// 		latitude: $scope.trips[i].slocation.coords.latitue,
-		// 		longitude: $scope.trips[i].slocation.coords.longitude
-		// 	}
-		// 	console.log($scope.trips[i].coords);
-		// }
 
 		$log.info(data);
 

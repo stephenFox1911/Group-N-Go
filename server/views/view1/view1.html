@@ -1,7 +1,7 @@
 <div class="container content">
 		<div class="list-group" style="margin-top:15px">
 			<div ng-repeat="trip in trips">
-				<a href="#">
+				<a ng-click="selected.trip = trip; popup()">
 				<div class="list-group-item">
 			        <div class="row-action-primary">
 			            <i class=""></i>
