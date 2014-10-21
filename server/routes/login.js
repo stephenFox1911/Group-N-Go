@@ -14,6 +14,18 @@ function rand(rlen){
     return text;
 }
 
+// returns a string containing the current users uname
+function get_user(){
+    var name = "uname=";
+    var ca = document.cookie.split(';');
+    for(var i=0; i<ca.length; i++){
+	var c = ca[i];
+	while (c.charAt(0)==' ') c = c.substring(1);
+	if(c.indexOf(name) != -1) return c.substring(name.length,c.length);
+    }
+    return "";
+}
+
 // return angular front end
 router.get('/', function(req, res) {
         res.render('index.html',{requestIP: req.ip});
@@ -102,6 +114,7 @@ router.post('/api/login/', function(req, res){
 	    shasum.update(salt + h.pass);
 	    if(shasum.digest('hex') == passwrd){
 	        console.log('Logging in user: ' + h.uname);
+		document.cookie="uname=" + h.uname;
 		return res.send({success: 'True'});
 	    }
 	    else{
