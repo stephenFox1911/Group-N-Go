@@ -12,20 +12,19 @@ angular.module('myApp.view1', ['ngRoute'])
 .controller('View1Ctrl', function($scope, $http, $log) {
 
 	$scope.trips = [];
-	$log.info("loading trips");
+	// $log.info("loading trips");
 	
 	$http({
 		method: 'GET',
 		url: "http://www.corsproxy.com/groupngo.website/api/trips"
 	})	
 	.success(function(data){
-		$log.info("got trips");
+		// $log.info("got trips");
 		$scope.trips = data;
-		$log.info($scope.trips);
+		// $log.info($scope.trips);
 	})
 	.error(function(data, status){
 		$log.info(status);
 	});
-	
 	
 });

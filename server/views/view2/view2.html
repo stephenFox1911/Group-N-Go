@@ -1,3 +1,7 @@
 <div class="map_canvas content">
-	<ui-gmap-google-map center="map.center" zoom="map.zoom"></ui-gmap-google-map>
+	<ui-gmap-google-map center="map.center" zoom="map.zoom">
+		<ui-gmap-marker ng-repeat="trip in trips"coords="trip.scoords" idKey="trip.ID"></ui-gmap-marker>
+	</ui-gmap-google-map>
 </div>
+
+<!-- <p ng-repeat="trip in trips">{{trip.ID}}</p> -->
