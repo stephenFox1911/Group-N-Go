@@ -1,0 +1,36 @@
+/*join a trip*/
+	INSERT INTO `Users_Trips`(`UserID`, `TripID`) VALUES(\\currentUserID, \\RequestedJoinID);
+
+/*Add a Trip(and immediately join)*/
+Insert INTO `Trips`(`StartLocationID`, `EndLocationID`) 
+		VALUES(
+			(select ID from Locations where UPPER(Name) like "%/*slocationname*/%" limit 1), 
+			(select ID from Locations where UPPER(Name) like "%/*elocationname*/%" limit 1)
+            );
+	INSERT INTO `Users_Trips`(`UserID`, `TripID`) VALUES(/*userID*/, LAST_INSERT_ID());
+
+/*Find Starting points of trips*/
+	SELECT Locations.Name, Locations.Lat, Locations.Lng From Trips 
+		Join Locations On Locations.ID=Trips.StartLocationID
+		Where Active=1;
+	
+/*Find Closest Starting Point*/
+	SELECT DISTINCT starts.Name, starts.Lat, starts.Lng, (POW(69.1 * (Lat - 33.772474), 2) + POW(69.1 * (-84.394085 - Lng) * COS(Lat / 57.3), 2)) AS distance
+                FROM(
+                        SELECT Locations.Name, Locations.Lat, Locations.Lng
+                        From (
+                        Select Trips.* From Trips Join Users_Trips on TripID = Trips.ID AND Users_Trips.Active = 1
+                         )as trip Join Locations On Locations.ID=trip.StartLocationID
+                ) As starts
+                HAVING distance < 0.25 ORDER BY distance;
+
+
+/*Get all trips for a user*/
+	Select t.ID, sl.Name, el.Name
+		From Users_Trips
+			Join Trips t On Users_Trips.TripID= t.ID
+			Join Locations sl ON t.StartLocationID = sl.ID
+			Join Locations el ON t.EndLocationID = el.ID
+		Where Users_Trips.UserID=/*currentUserID*/
+		AND t.Active=1
+	

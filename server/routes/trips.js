@@ -13,33 +13,68 @@ router.get('/', function(req, res) {
 //returns all active trips
 router.get('/api/trips/', function(req, res) {
         var sql = squel.select()
-	    .field("Trips.ID")
+	    .field("trips.ID")
 	    .field("sl.Name", "sname")
+	    .field("sl.Lat", "slat")
+	    .field("sl.Lng", "slng")
 	    .field("el.Name", "ename")
-            .from("Trips")
-            .where("Active = 1")
-            .join("Locations", "sl", "Trips.StartLocationID = sl.ID")
-            .join("Locations", "el", "Trips.EndLocationID = el.ID")
+	    .field("el.Lat", "elat")
+            .field("el.Lng", "elng")
+            .from(squel.select()
+		.field("Trips.*")
+		.from("Trips")
+		.join("Users_Trips", null, "Users_Trips.TripID = Trips.ID AND Users_Trips.Active = 1"), "trips")
+            .join("Locations", "sl", "trips.StartLocationID = sl.ID")
+            .join("Locations", "el", "trips.EndLocationID = el.ID")
    	    .toString();
-			connection.query(sql, function(err, results){
-	            if(err){
-	                console.log(err)
-	                res.send({success: 'False', error: err});
-	            } else {
+	    console.log(sql);
+	    connection.query(sql, function(err, results){
+	        if(err){
+	        	console.log(err)
+	                return res.send({success: 'False', error: err});
+	        }
+		else {
 	                console.log("Looked up trips");
-	                return res.json(results);
-	                }
-	            });
+			var objs = [];
+			for(i=0; i<results.length; i++){
+				result = results[i];
+				var jsonobj = {
+					ID: result.ID,
+					slocation : {
+						name : result.sname,
+						coords : {
+							latitude : result.slat,
+							longitude : result.slng
+						}
+					},
+					elocation : {
+						name : result.ename,
+						coords : {
+							latitude : result.elat,
+							longitude : result.elng
+						}
+					}
+				};
+				objs.push(jsonobj);
+			}
+	       		return res.json(objs);
+		}
+	    });
 });
 
 //creates a new trip
 router.post('/api/trips/', function(req, res) {
-      h=req.headers;
-
-      //start/end with locationID
-      //num people
-      //num seats
-
+	h=req.headers;
+      	if(h.slocation == null || h.slocation.length<=0 || h.elocation == null || h.elocation.length<=0){
+		console.log("Empty Requst");
+		return res.send({Success: 'False', Error: err});
+	}
+        //get current userID from cookie
+        var curruser = 1;
+	//start/end with locationID
+        //num people
+        //num seats
+	
       var sql = squel.insert()
 		.into("Trips")
 		.set("StartLocationID",
@@ -62,10 +97,25 @@ router.post('/api/trips/', function(req, res) {
 		if(err){
 			console.log("Error Adding trip");
 			console.log(err)
-			res.send({success: 'False', error: err});
-		} else {
-		    console.log("Added trip");
-         	    res.send({success: 'True'});
+			return res.send({success: 'False', error: err});
+		}
+		else{
+			var tripid = results.insertId;
+			var utsql = squel.insert()
+                        .into("Users_Trips")
+                        .set("UserID", curruser)
+                        .set("TripID", tripid)
+                        .toString();
+                    connection.query(utsql, function(err, results){
+                        if(err){
+                            console.log(err);
+                            return res.send({Success: 'False', Error: err});
+                        }
+                        else{
+                            console.log("Added Trip");
+                            return res.send({Success: 'True'});
+                        }
+                    });
 		}
 	    });
 });
