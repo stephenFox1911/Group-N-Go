@@ -15,13 +15,15 @@ Insert INTO `Trips`(`StartLocationID`, `EndLocationID`)
 		Where Active=1;
 	
 /*Find Closest Starting Point*/
-	SELECT starts.Name, starts.Lat, starts.Lng, (POW(69.1 * (Lat - 33.772474), 2) +	POW(69.1 * (-84.394085 - Lng) * COS(Lat / 57.3), 2)) AS distance
-		FROM(
-			SELECT Locations.Name, Locations.Lat, Locations.Lng 
-			From Trips Join Locations On Locations.ID=Trips.StartLocationID
-			Where Active=1
-		) As starts
-		HAVING distance < 0.25 ORDER BY distance;
+	SELECT DISTINCT starts.Name, starts.Lat, starts.Lng, (POW(69.1 * (Lat - 33.772474), 2) + POW(69.1 * (-84.394085 - Lng) * COS(Lat / 57.3), 2)) AS distance
+                FROM(
+                        SELECT Locations.Name, Locations.Lat, Locations.Lng
+                        From (
+                        Select Trips.* From Trips Join Users_Trips on TripID = Trips.ID AND Users_Trips.Active = 1
+                         )as trip Join Locations On Locations.ID=trip.StartLocationID
+                ) As starts
+                HAVING distance < 0.25 ORDER BY distance;
+
 
 /*Get all trips for a user*/
 	Select t.ID, sl.Name, el.Name
