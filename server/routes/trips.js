@@ -25,21 +25,44 @@ router.get('/api/trips/', function(req, res) {
             .join("Locations", "sl", "Trips.StartLocationID = sl.ID")
             .join("Locations", "el", "Trips.EndLocationID = el.ID")
    	    .toString();
-			connection.query(sql, function(err, results){
-	            if(err){
-	                console.log(err)
+	    connection.query(sql, function(err, results){
+	        if(err){
+	        	console.log(err)
 	                res.send({success: 'False', error: err});
-	            } else {
+	        }
+		else {
 	                console.log("Looked up trips");
-	                return res.json(results);
-	                }
-	            });
+			var objs = [];
+			for(i=0; i<results.length; i++){
+				result = results[i];
+				var jsonobj = {
+					ID: result.ID,
+					slocation : {
+						name : result.sname,
+						coords : {
+							lattitue : result.slat,
+							longitude : result.slng
+						}
+					},
+					elocation : {
+						name : result.ename,
+						coords : {
+							lattitude : result.elat,
+							longitude : result.elng
+						}
+					}
+				};
+				objs.push(jsonobj);
+			}
+	       		return res.json(objs);
+		}
+	    });
 });
 
 //creates a new trip
 router.post('/api/trips/', function(req, res) {
       h=req.headers;
-
+      //get current userID from cookie
       //start/end with locationID
       //num people
       //num seats
@@ -66,12 +89,27 @@ router.post('/api/trips/', function(req, res) {
 		if(err){
 			console.log("Error Adding trip");
 			console.log(err)
-			res.send({success: 'False', error: err});
+			return res.send({success: 'False', error: err});
 		} else {
 		    console.log("Added trip");
-         	    res.send({success: 'True'});
+		    return res.send({Success: 'True'});
 		}
 	    });
+//     var utsql = squel.insert()
+//		.into("Users_Trips")
+//		//.field("UserID", curruser)
+//		.field("TripID", "LAST_INSERT_ID")
+//		.toString();
+//	connection.query(utsql, function(err, results){
+//		if(err){
+//			console.log(err)
+//			return res.send({success: 'False', error: err});
+//		}
+//		else{
+//			console.log("Added trip");
+//			return res.send({Success: True});
+//		}
+//	});     
 });
 
 module.exports = router;
