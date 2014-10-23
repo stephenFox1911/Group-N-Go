@@ -2,20 +2,25 @@ var express    = require('express'); 		// call express
 var app        = express(); 			// define our app using express
 var bodyParser = require('body-parser');
 var path       = require('path');
+var cookieParser = require('cookie-parser');
 
+app.use(cookieParser);
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.set('view engine','html');
 app.engine('html', require('ejs').renderFile);
 app.use(express.static(path.join(__dirname, 'views')));
+
 var port = process.env.PORT || 80; 		// set our port
 
 // ROUTES FOR OUR API
 // =============================================================================
 var login = require('./routes/login.js');
 var trips = require('./routes/trips.js');
+var cookies = require('./routes/cookies.js');
 app.use(login);
 app.use(trips);
+app.use(cookies);
 
 
 //keep this last, as it will return 404

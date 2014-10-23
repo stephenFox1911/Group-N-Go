@@ -1,0 +1,9 @@
+{
+	"name": "GnG-rest-api",
+	"version": "0.0.1",
+	"description": "REST api for GnG app"
+	"private": true,
+	"dependencies": {
+		"express": "~2.5.8"
+	}
+}

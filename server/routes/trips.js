@@ -1,6 +1,7 @@
 var express = require('express');
 var rest = require('restler');
 var router = express.Router();
+var cookies = require('cookies');
 var squel = require('squel');
 var connection = require('../DAO/connection');
 squel.useFlavour('mysql');
@@ -70,7 +71,7 @@ router.post('/api/trips/', function(req, res) {
 		return res.send({Success: 'False', Error: err});
 	}
         //get current userID from cookie
-        var curruser = 1;
+        var curruser = get_userID();
 	//start/end with locationID
         //num people
         //num seats

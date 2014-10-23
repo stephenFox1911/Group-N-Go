@@ -1,4 +1,5 @@
 var express = require('express');
+var cookieparser = require('cookieparser');
 var rest = require('restler');
 var crypto = require('crypto');
 var router = express.Router();
@@ -12,18 +13,6 @@ function rand(rlen){
     for( var i=0; i < rlen; i++ )
         text += possible.charAt(Math.floor(Math.random() * possible.length));
     return text;
-}
-
-// returns a string containing the current users uname
-function get_user(){
-    var name = "uname=";
-    var ca = document.cookie.split(';');
-    for(var i=0; i<ca.length; i++){
-	var c = ca[i];
-	while (c.charAt(0)==' ') c = c.substring(1);
-	if(c.indexOf(name) != -1) return c.substring(name.length,c.length);
-    }
-    return "";
 }
 
 // return angular front end
@@ -96,6 +85,7 @@ router.post('/api/login/', function(req, res){
     h = req.headers;
     var sql = squel.select()
         .from("Users")
+	.field("ID")
         .field("Username")
         .field("PasswordHash")
         .field("Salt")
@@ -108,13 +98,14 @@ router.post('/api/login/', function(req, res){
             console.log(err)
             return res.send({success: 'False', error: err});
 	} else {
+	    var uid = rows[0].ID;
             var salt = rows[0].Salt;
 	    var passwrd = rows[0].PasswordHash;
 	    var shasum = crypto.createHash('sha256');
 	    shasum.update(salt + h.pass);
 	    if(shasum.digest('hex') == passwrd){
 	        console.log('Logging in user: ' + h.uname);
-		document.cookie="uname=" + h.uname;
+		res.cookie('userid', uid);
 		return res.send({success: 'True'});
 	    }
 	    else{

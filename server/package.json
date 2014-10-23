@@ -20,6 +20,7 @@
     "method-override": "^2.2.0",
     "mysql": "latest",
     "restler": "^3.2.2",
-    "squel": "^3.8.1"
+    "squel": "^3.8.1",
+    "cookieParser": "latest"
   }
 }
