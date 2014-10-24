@@ -81,6 +81,11 @@ html, body {
 body {
 	padding-top: 60px;
 }
+
+.jumbotron {
+	height: 100%;
+	margin: 0;
+}
 /*
 .navbar-right {
 	position: absolute;

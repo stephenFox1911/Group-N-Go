@@ -3,26 +3,55 @@
 // Declare app level module which depends on views, and components
 var app = angular.module('myApp', [
 	'ngRoute',
-	'myApp.view1',
-	'myApp.view2',
 	'myApp.version',
-	'ui.bootstrap'
+	'ui.bootstrap',
+	'google-maps'.ns()
 ]).
 
 config(['$routeProvider', function($routeProvider) {
-	$routeProvider.otherwise({redirectTo: '/view1'});
+	$routeProvider.when('/home', {
+		controller: 'HomeCtrl',
+		templateUrl: 'views/home.html'
+	});
+	$routeProvider.when("/login", {
+		controller: 'LoginCtrl',
+		templateUrl: 'views/login.html'
+	});
+	$routeProvider.when('/signup', {
+		controller: 'SignupCtrl',
+		templateUrl: 'views/signup.html'
+	});
+	$routeProvider.when('/view1', {
+		controller: 'View1Ctrl',
+		templateUrl: 'views/view1.html'
+	});
+	$routeProvider.when('/view2', {
+		controller: 'View2Ctrl',
+		templateUrl: 'views/view2.html'
+	});
+	$routeProvider.otherwise({redirectTo: 'home'});
 }]).
 
-controller('NavCtrl', function ($scope, $modal, $log) {
+controller('IndexCtrl', function ($scope, $modal, $log) {
 
 	// getTrips.loadTrips();
 
 	// $scope.trips = getTrips.allTrips();
 
+	$scope.login = {};
+	$scope.login.isAuth = false;
+	$scope.login.userName = 'Buzz';
+
+	$scope.logout = function() {
+		$scope.login.isAuth = false;
+		console.log($scope.login.isAuth);
+		$location.path('/home');
+	}
+
 	$scope.open = function (size) {
 
 	    var modalInstance = $modal.open({
-	      templateUrl: 'find.html',
+	      templateUrl: 'views/find.html',
 	      controller: 'ModalInstanceCtrl',
 	      size: size,
 	      resolve: {
@@ -102,4 +131,8 @@ app.factory('getTrips', function($log, $http) {
 			return trips;
 		}
 	}
+});
+
+app.controller('loginCtrl', function($scope){
+
 });

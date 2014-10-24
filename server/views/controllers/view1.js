@@ -1,15 +1,6 @@
 'use strict';
 
-angular.module('myApp.view1', ['ngRoute'])
-
-.config(['$routeProvider', function($routeProvider) {
-  $routeProvider.when('/view1', {
-    templateUrl: 'view1/view1.html',
-    controller: 'View1Ctrl'
-  });
-}])
-
-.controller('View1Ctrl', function($scope, $http, $log, $modal) {
+app.controller('View1Ctrl', function($scope, $http, $log, $modal) {
 
 	$scope.trips = [];
 	// $log.info("loading trips");
@@ -36,7 +27,7 @@ angular.module('myApp.view1', ['ngRoute'])
 	$scope.popup = function () {
 
 	    var modalInstance = $modal.open({
-	      templateUrl: 'view1/tripDetail.html',
+	      templateUrl: 'views/tripDetail.html',
 	      controller: 'TripActionCtrl',
 	      size: 'small',
 	      resolve: {
