@@ -13,50 +13,21 @@ __author__ = 'Adam'
 import requests
 import re
 
-api_key = "AIzaSyCDpJr0yyMkMJ4hjbDycjoNTbuVbHWK-c0"
-geocodeendpoint = "https://maps.googleapis.com/maps/api/geocode/json"
 placesendpoint = "http://m.gatech.edu/api/gtplaces/buildings/"
-
-def getBuildings():
-    req = requests.request('GET', placesendpoint)
-    # parse json response here in to list of building objects
-    # store buildingcode, Name, Address
-    return req.json()
-
-
-def getLatLng(addr):
-    address = re.sub(r'\s+', '+', addr)
-    requestparams = "?address=" + str(address) + "&key=" + api_key
-    reqstring = geocodeendpoint+requestparams
-    r = requests.request('GET', reqstring)
-    jsonobj = r.json()['results']
-    location = re.sub(r'.*?(location[^_]*?}).*$', r'\1', str(jsonobj))
-    location = re.sub(r'(.*?\{)|(\}.*)', "", location)
-    location = re.sub(r'\s+', "", location)
-    coords = re.split(r'\s*,\s*', location)
-    lat = re.sub(r'[^\d\.-]', "", coords[0])
-    lng = re.sub(r'[^\d\.-]', "", coords[1])
-    return lat, lng
-
-
-def createSQL(valuelist):
-    start = "INSERT INTO `groupngo`.`Locations` (`BuildingCode`, `Name`, `Address`, `Lat`, `Lng`) VALUES "
-    for value in valuelist:
-        start += value + ", "
-    SQL = re.sub(r', $', ' ', start)
-    SQL += "ON DUPLICATE KEY UPDATE Name=VALUES(Name), Address=VALUES(Address), Lat=VALUES(Lat), Lng=VALUES(Lng)"
-    fout = open('updateGTplaces.sql', 'w')
-    fout.write(SQL + "\n")
-    fout.close()
-
-if __name__ == "__main__":
-    values = []
-    places = getBuildings()
-    for place in places:
-        # parse out name address etc
-        name = "name"
-        # lookup geocode for address and store with other info in list
-        lat, lng = getLatLng(name)
-        values.append(name)
-    # create update statement
-    createSQL(values)
+start = "INSERT INTO `groupngo`.`Locations` (`BuildingCode`, `Name`, `Address`, `Lat`, `Lng`) VALUES "
+req = requests.request('GET', placesendpoint)
+bldgs = req.json()
+for bldg in bldgs:
+    bldgid = re.sub(r'\s+', ' ', bldg['b_id'].strip())
+    bldgname = re.sub(r'\s+', ' ', bldg['name'].strip())
+    if (str(bldgid).strip() == "" or bldgid is None) or (str(bldgname).strip() == "" or bldgname is None):
+        continue
+    bldgaddr = re.sub(r'\s+', ' ', bldg['address'].strip())
+    bldglat = bldg['latitude']
+    bldglng = bldg['longitude']
+    start += "(\"" + bldgid + "\", \"" + bldgname + "\", \"" + bldgaddr + "\", " + bldglat + ", " + bldglng + "), "
+SQL = re.sub(r', $', ' ', start)
+SQL += "ON DUPLICATE KEY UPDATE Name=VALUES(Name), Address=VALUES(Address), Lat=VALUES(Lat), Lng=VALUES(Lng);"
+fout = open('updateGTplaces.sql', 'w')
+fout.write(SQL + "\n")
+fout.close()
