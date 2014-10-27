@@ -1,7 +1,7 @@
 var express = require('express');
 var rest = require('restler');
 var router = express.Router();
-var cookies = require('cookies');
+//var cookies = require('./cookies');
 var squel = require('squel');
 var connection = require('../DAO/connection');
 squel.useFlavour('mysql');
@@ -11,8 +11,98 @@ router.get('/', function(req, res) {
         res.render('app/index.html',{requestIP: req.ip});
 });
 
+router.get('/api/close/', function(req,res){
+	var sloc = req.query.slocation;
+	var sql = squel.select()
+		.field("Locations.Lat")
+		.field("Locations.Lng")
+		.from("Locations")
+		.where("UPPER(Locations.Name) like ?", "%" + sloc.toUpperCase() + "%")
+		.limit(1)
+		.toString();
+	connection.query(sql, function(err, result){
+		if(err || result.length <1){
+			if(err){
+				console.log(err);
+				return res.send({Success: 'False', Error: err});
+			}
+			else{
+				console.log("No Such Location");
+				return res.send({Success: 'False', Error: 'No Such Location'});
+			}
+		}
+		else{
+			var closest = squel.select()
+				.field("close.tripid")
+				.field("close.sname")
+				.field("close.slat")
+				.field("close.slng")
+				.field("close.ename")
+				.field("close.elat")
+				.field("close.elng")
+				.field("(POW(69.1 * (close.slat -" + result[0].Lat + "), 2) + POW(69.1 * (" + result[0].Lng + "- close.slng) * COS(close.slat / 57.3), 2))", "distance")
+				.from(squel.select()
+					.distinct()
+					.field("trips.TripID","tripid")
+					.field("sl.Name", "sname")
+					.field("sl.Lat", "slat")
+					.field("sl.Lng", "slng")
+					.field("el.Name", "ename")
+                                        .field("el.Lat", "elat")
+                                        .field("el.Lng", "elng")
+					.from(squel.select()
+						.field("TripID")
+						.from("Users_Trips")
+						.where("Active = 1")
+						, "trips"
+					)
+					.join("Trips","t", "trips.TripID = t.ID")
+					.join("Locations", "sl", "sl.ID = t.StartLocationID")
+					.join("Locations", "el", "el.ID = t.EndLocationID")
+					,"close"
+				)
+				.order("distance")
+				.toString();
+			//console.log(closest);
+			connection.query(closest, function(err, results){
+				if(err){
+					console.log(err);
+					return res.send(err);
+				}
+				else{
+					console.log("Looked up closest trips");
+					var objs = [];
+					for(i=0; i<results.length; i++){
+                                		resu = results[i];
+                                		var jsonobj = {
+                                        		ID: resu.tripid,
+                                        		slocation : {
+                                        	        	name : resu.sname,
+                                                		coords : {
+                                                        	latitude : resu.slat,
+                                                        	longitude : resu.slng
+                                                		}
+                                        		},
+                                        		elocation : {
+                                                		name : resu.ename,
+						 		coords : {
+                                                        		latitude : resu.elat,
+                                                        		longitude : resu.elng
+                                                		}
+                                        		}
+                                		};
+                                		objs.push(jsonobj);
+                        		}
+                        		return res.json(objs);
+				}
+			});
+		}
+	});
+});
+
+
 //returns all active trips
-router.get('/api/trips/', function(req, res) {
+router.get('/api/trips', function(req, res) {
         var sql = squel.select()
 	    .field("trips.ID")
 	    .field("sl.Name", "sname")
@@ -28,7 +118,7 @@ router.get('/api/trips/', function(req, res) {
             .join("Locations", "sl", "trips.StartLocationID = sl.ID")
             .join("Locations", "el", "trips.EndLocationID = el.ID")
    	    .toString();
-	    console.log(sql);
+//	    console.log(sql);
 	    connection.query(sql, function(err, results){
 	        if(err){
 	        	console.log(err)
@@ -71,7 +161,7 @@ router.post('/api/trips/', function(req, res) {
 		return res.send({Success: 'False', Error: err});
 	}
         //get current userID from cookie
-        var curruser = get_userID();
+        var curruser = 1;
 	//start/end with locationID
         //num people
         //num seats

@@ -1,5 +1,5 @@
 var express = require('express');
-var cookieparser = require('cookieparser');
+//var cookieparser = require('cookie-parser');
 var rest = require('restler');
 var crypto = require('crypto');
 var router = express.Router();
@@ -105,7 +105,7 @@ router.post('/api/login/', function(req, res){
 	    shasum.update(salt + h.pass);
 	    if(shasum.digest('hex') == passwrd){
 	        console.log('Logging in user: ' + h.uname);
-		res.cookie('userid', uid);
+//		res.cookie('userid', uid);
 		return res.send({success: 'True'});
 	    }
 	    else{

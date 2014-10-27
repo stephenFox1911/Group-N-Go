@@ -21,6 +21,6 @@
     "mysql": "latest",
     "restler": "^3.2.2",
     "squel": "^3.8.1",
-    "cookieParser": "latest"
+    "cookie-parser": "latest"
   }
 }

@@ -7,5 +7,4 @@ function get_userID(){
     return req.cookies.userid;
 }
 
-
-module.exports = router;
+module.exports = cookieParser;

@@ -2,9 +2,9 @@ var express    = require('express'); 		// call express
 var app        = express(); 			// define our app using express
 var bodyParser = require('body-parser');
 var path       = require('path');
-var cookieParser = require('cookie-parser');
+//var cookieParser = require('cookie-parser');
 
-app.use(cookieParser);
+//app.use(cookieParser);
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.set('view engine','html');
@@ -17,10 +17,10 @@ var port = process.env.PORT || 80; 		// set our port
 // =============================================================================
 var login = require('./routes/login.js');
 var trips = require('./routes/trips.js');
-var cookies = require('./routes/cookies.js');
+//var cookies = require('./routes/cookies.js');
 app.use(login);
 app.use(trips);
-app.use(cookies);
+//app.use(cookies);
 
 
 //keep this last, as it will return 404
@@ -28,7 +28,7 @@ app.use(function(req, res, next){
   res.status(404);
   // respond with html page
   if (req.accepts('html')) {
-    return res.render('404', { url: req.url });
+    return res.render('views/404', { url: req.url });
   }
   // respond with json
   if (req.accepts('json')) {
