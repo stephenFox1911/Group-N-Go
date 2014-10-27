@@ -61,13 +61,13 @@ router.post('/api/users/', function(req, res) {
 });
 
 // get user by userid (accessed at GET http://localhost:80/api/users)
-
-router.get('/api/users/', function(req, res) {
+router.get('/api/users/:id', function(req, res) {
 	     //return all of the users
              console.log('returning Users');
             var sql = squel.select()
 		.field("UserName")
                 .from("Users")
+		.where("ID = ?", req.params.id)
 		.toString();
             connection.query(sql, function(err, results){
                 if(err){
@@ -79,6 +79,26 @@ router.get('/api/users/', function(req, res) {
                 }
             });
 });
+
+//get all users
+router.get('/api/users/', function(req, res) {
+             //return all of the users
+             console.log('returning Users');
+            var sql = squel.select()
+                .field("UserName")
+                .from("Users")
+                .toString();
+            connection.query(sql, function(err, results){
+                if(err){
+                        console.log(err)
+                        res.send({success: 'False', error: err});
+                } else {
+                    console.log("Added user");
+                    return res.json(results);
+                }
+            });
+});
+
 
 router.post('/api/login/', function(req, res){
     //attempt to login user
@@ -94,7 +114,7 @@ router.post('/api/login/', function(req, res){
         .toParam();
     connection.query(sql.text, sql.values, function(err, rows){
 	if(err){
-            console.log("Error Adding user");
+            console.log("Error Finding");
             console.log(err)
             return res.send({success: 'False', error: err});
 	} else {
@@ -105,8 +125,8 @@ router.post('/api/login/', function(req, res){
 	    shasum.update(salt + h.pass);
 	    if(shasum.digest('hex') == passwrd){
 	        console.log('Logging in user: ' + h.uname);
-//		res.cookie('userid', uid);
-		return res.send({success: 'True'});
+		res.cookie('userid', uid, { maxAge: 900000, httpOnly: true });
+		return res.render('views/view1');
 	    }
 	    else{
 		console.log('Invalid Pass');
