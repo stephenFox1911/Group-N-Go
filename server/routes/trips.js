@@ -259,4 +259,24 @@ router.post('/api/trips/:id', function(req, res){
 	});
 });
 
+//leave a trip
+router.delete('/api/trips/', function(req, res){
+	var curruser = 1; //replace with data from cookie
+
+	var sql = squel.update()
+		.table("Users_Trips")
+		.set("Active", 0)
+		.where("UserID = ?", curruser)
+		.toString();
+	connection.query(sql, function(err, results){
+		if(err){
+			return res.send(err);
+		}
+		else{
+			return res.send({Success: 'True'});
+		}
+	});
+	//if this is the last active user, remove trip??
+});
+
 module.exports = router;
