@@ -5,47 +5,51 @@ var app = angular.module('myApp', [
 	'ngRoute',
 	'myApp.version',
 	'ui.bootstrap',
-	'google-maps'.ns()
+	'google-maps'.ns(),
+	'LocalStorageModule'
 ]).
 
 config(['$routeProvider', function($routeProvider) {
 	$routeProvider.when('/home', {
 		controller: 'HomeCtrl',
 		templateUrl: 'views/home.html'
-	});
-	$routeProvider.when("/login", {
+	})
+	.when("/login", {
 		controller: 'LoginCtrl',
 		templateUrl: 'views/login.html'
-	});
-	$routeProvider.when('/signup', {
+	})
+	.when('/signup', {
 		controller: 'SignupCtrl',
 		templateUrl: 'views/signup.html'
-	});
-	$routeProvider.when('/view1', {
+	})
+	.when('/view1', {
 		controller: 'View1Ctrl',
 		templateUrl: 'views/view1.html'
-	});
-	$routeProvider.when('/view2', {
+	})
+	.when('/view2', {
 		controller: 'View2Ctrl',
 		templateUrl: 'views/view2.html'
-	});
-	$routeProvider.otherwise({redirectTo: 'home'});
+	})
+	.otherwise({redirectTo: 'home'});
 }]).
 
-controller('IndexCtrl', function ($scope, $modal, $log, $location) {
+controller('IndexCtrl', function ($scope, $modal, $log, $location, authService) {
 
 	// getTrips.loadTrips();
 
 	// $scope.trips = getTrips.allTrips();
 
-	$scope.login = {};
-	$scope.login.isAuth = false;
-	$scope.login.userName = 'Buzz';
+	// $scope.login = {};
+	// $scope.login.isAuth = false;
+	// $scope.login.userName = 'Buzz';
+	$scope.authentication = authService.authentication;
 
 	$scope.logout = function() {
-		$scope.login.isAuth = false;
-		console.log($scope.login.isAuth);
+		// $scope.login.isAuth = false;
+		// console.log($scope.login.isAuth);
+		authService.logOut();
 		$location.path('/home');
+
 	}
 
 	$scope.open = function (size) {
@@ -135,4 +139,10 @@ app.factory('getTrips', function($log, $http) {
 
 app.controller('loginCtrl', function($scope){
 
+});
+
+var serviceBase = "https://cors-anywhere.herokuapp.com/groupngo.website";
+app.constant('ngAuthSettings', {
+    apiServiceBaseUri: serviceBase,
+    clientId: 'ngAuthApp'
 });

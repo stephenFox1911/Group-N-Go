@@ -4,21 +4,26 @@
             &nbsp;
         </div>
         <div class="col-md-4">
-		    <h2 class="form-login-heading">Sign up</h2>
+		    <h2>Sign up</h2>
+
 		    <div class="form-group">
-			    <input type="text" class="form-control" placeholder="Username" data-ng-model="registration.userName" required autofocus>
-			    <input type="password" class="form-control" placeholder="Password" data-ng-model="registration.password" required>
-			    <input type="password" class="form-control" placeholder="Confirm Password" data-ng-model="registration.confirmPassword" required>
-			    <button class="btn btn-lg btn-primary btn-block" type="submit" data-ng-click="signUp()">Submit</button>
+			    <input type="text" class="form-control" placeholder="Username" ng-model="registration.uname" required autofocus>
+
+			    <input type="password" class="form-control" placeholder="Password" ng-model="registration.pass" ng-minlength="6" required>
+			    <!-- <input type="password" class="form-control" placeholder="Confirm Password" ng-model="registration.confirmPassword" required> -->
+                <input type="text" class="form-control" placeholder="First Name" ng-model="registration.fname" required>
+                <input type="text" class="form-control" placeholder="Last Name" ng-model="registration.lname" required>
+			    <button class="btn btn-lg btn-primary btn-block" type="submit" ng-click="signUp()">Submit</button>
 			</div>
-        </div>
+
+            <div data-ng-hide="message == ''" ng-class="(savedSuccessfully) ? 'alert alert-success' : 'alert alert-danger'">
+                {{message}}
+            </div>
         </div>
         <div class="col-md-4">
             &nbsp;
         </div>
 
     </div>
-
-
 
 </div>
