@@ -1,5 +1,6 @@
 var express = require('express');
 var rest = require('restler');
+var crypto = require('crypto');
 var router = express.Router();
 //var cookies = require('./cookies');
 var squel = require('squel');
@@ -153,15 +154,42 @@ router.get('/api/trips', function(req, res) {
 	    });
 });
 
+//Get all members of a specific trip
+router.get('/api/trips/:id', function(req, res){
+	var tripid = req.params.id;
+	var sql = squel.select()
+		.field("Users.ID")
+		.field("Users.UserName")
+		.field("Users.FirstName")
+		.field("Users.LastName")
+		.from(squel.select()
+			.field("Users_Trips.UserID")
+			.from("Users_Trips")
+			.where("Users_Trips.Active = 1 AND Users_Trips.TripID = ?", tripid), "userids")
+		.join("Users", "", "userids.UserID = Users.ID")
+		.toString();
+	console.log(sql);
+	connection.query(sql, function(err, results){
+		if(err){
+			return res.send(err);
+		}
+		else{
+			return res.json(results);
+		}
+	});
+});
+
 //creates a new trip
 router.post('/api/trips/', function(req, res) {
 	h=req.headers;
       	if(h.slocation == null || h.slocation.length<=0 || h.elocation == null || h.elocation.length<=0){
 		console.log("Empty Requst");
-		return res.send({Success: 'False', Error: err});
+		return res.send({Success: 'False', Error: 'Empty Request'});
 	}
         //get current userID from cookie
-        var curruser = 1;
+	//var decrypt = crypto.createDecipher('aes192', 'BuzzTrip');
+	//decrypt.update(req.cookies.udntf);
+        var curruser = 1; //parseInt(decrypt.final());
 	//start/end with locationID
         //num people
         //num seats
@@ -209,6 +237,26 @@ router.post('/api/trips/', function(req, res) {
                     });
 		}
 	    });
+});
+
+//join a trip
+
+router.post('/api/trips/:id', function(req, res){
+	var tripid = req.params.id;
+	var curruser = 2; //replace with value from cookie
+	var sql = squel.insert()
+		.into("Users_Trips")
+		.set("UserID", curruser)
+		.set("TripID", tripid)
+		.toString();
+	connection.query(sql, function(err, results){
+		if(err){
+			return res.send(err);
+		}
+		else{
+			return res.send({Success: 'True'});
+		}
+	});
 });
 
 module.exports = router;

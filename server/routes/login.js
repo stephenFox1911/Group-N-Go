@@ -125,7 +125,9 @@ router.post('/api/login/', function(req, res){
 	    shasum.update(salt + h.pass);
 	    if(shasum.digest('hex') == passwrd){
 	        console.log('Logging in user: ' + h.uname);
-		res.cookie('userid', uid, { maxAge: 900000, httpOnly: true });
+		var unamecrypt = crypto.createCipher('aes192', 'BuzzTrip');
+		unamecrypt.update(""+uid);
+		res.cookie('udntf', unamecrypt.final(), { maxAge: 900000, httpOnly: true });
 		return res.render('views/view1');
 	    }
 	    else{
@@ -134,6 +136,11 @@ router.post('/api/login/', function(req, res){
 	    }
         }
     });
+});
+
+router.post('/api/logout/', function(req, res){
+	res.clearCookie('udntf');
+	return res.render('views/home');
 });
 
 module.exports = router;
