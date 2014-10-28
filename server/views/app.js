@@ -32,7 +32,7 @@ config(['$routeProvider', function($routeProvider) {
 	$routeProvider.otherwise({redirectTo: 'home'});
 }]).
 
-controller('IndexCtrl', function ($scope, $modal, $log) {
+controller('IndexCtrl', function ($scope, $modal, $log, $location) {
 
 	// getTrips.loadTrips();
 

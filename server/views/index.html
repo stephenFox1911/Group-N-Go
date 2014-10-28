@@ -18,30 +18,40 @@
   <link rel="stylesheet" href="app.css">
   
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+  
   <link rel="stylesheet" href="bower_components/bootstrap-material-design/css-compiled/ripples.css">
   <link rel="stylesheet" href="bower_components/bootstrap-material-design/css-compiled/material.css">
 
 </head>
 <body ng-controller="IndexCtrl">
-  <div class="nav navbar navbar-default navbar-fixed-top" role="navigation">
+  <div class="navbar navbar-default navbar-fixed-top" role="navigation">
     <div class="container">
       <div class="navbar-header">
+        <a class="btn btn-primary with-ripple" ng-hide="!login.isAuth">Search Nearby</a>
+        <a class="btn btn-primary with-ripple" ng-hide="!login.isAuth" ng-click="open()">Add Trip</a>
+        <a class="btn btn-primary with-ripple" ng-hide="!login.isAuth" ng-click="logout()">Log Out</a>
         <a class="navbar-brand" href="#/">Group'n'Go</a>
       </div>
-      <div>
-          <ul class="nav navbar-nav navbar-right">
-              <li ng-hide="!login.isAuth"><a href="#">Welcome {{login.userName}}</a></li>
-              <li ng-hide="!login.isAuth"><a ng-click="open()">Find Trips</a></li>
-              <li ng-hide="!login.isAuth"><a href="#/" ng-click="logout()">Logout</a></li>
-              <li ng-hide="login.isAuth"> <a href="#/login">Login</a></li>
-              <li ng-hide="login.isAuth"> <a href="#/signup">Sign Up</a></li>
-          </ul>
-      </div>
+
+          <!-- <ul class="nav navbar-nav navbar-right"> -->
+              <!-- <li ng-hide="!login.isAuth"><a href="#">Welcome {{login.userName}}</a></li> -->
+              <!-- <li ng-hide="!login.isAuth"><a ng-click="open()">Find Trips</a></li> -->
+              <!-- <li ng-hide="!login.isAuth"><a href="#/" ng-click="logout()">Logout</a></li> -->
+<!--               <li ng-hide="login.isAuth"> <a href="#/login">Login</a></li>
+              <li ng-hide="login.isAuth"> <a href="#/signup">Sign Up</a></li> -->
+          <!-- </ul> -->
     </div>
+
+
 
     <!-- <a href="#" class="btn btn-dedault btn-raised" ng-click="open()">Find a Group</a> -->
   </div>
-  
+
+<!--   <div class="btn-group btn-group-justified">
+    <a class="btn btn-default with-ripple">Search Nearby</a>
+    <a class="btn btn-default with-ripple">Add a Trip</a>
+  </div> -->
+
   <div ng-view class="view"></div>
 
   <ul class="nav nav-tabs" vertical="false" ng-hide="!login.isAuth">
