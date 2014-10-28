@@ -190,6 +190,9 @@ router.post('/api/trips/', function(req, res) {
 	//var decrypt = crypto.createDecipher('aes192', 'BuzzTrip');
 	//decrypt.update(req.cookies.udntf);
         var curruser = 1; //parseInt(decrypt.final());
+
+        leaveTrips(curruser);
+
 	//start/end with locationID
         //num people
         //num seats
@@ -244,6 +247,9 @@ router.post('/api/trips/', function(req, res) {
 router.post('/api/trips/:id', function(req, res){
 	var tripid = req.params.id;
 	var curruser = 2; //replace with value from cookie
+
+	leaveTrips(curruser);
+	
 	var sql = squel.insert()
 		.into("Users_Trips")
 		.set("UserID", curruser)
@@ -262,8 +268,11 @@ router.post('/api/trips/:id', function(req, res){
 //leave a trip
 router.delete('/api/trips/', function(req, res){
 	var curruser = 1; //replace with data from cookie
+	leaveTrips(curruser);
+});
 
-	var sql = squel.update()
+function leaveTrips(userID){
+var sql = squel.update()
 		.table("Users_Trips")
 		.set("Active", 0)
 		.where("UserID = ?", curruser)
@@ -276,7 +285,6 @@ router.delete('/api/trips/', function(req, res){
 			return res.send({Success: 'True'});
 		}
 	});
-	//if this is the last active user, remove trip??
-});
+};
 
 module.exports = router;

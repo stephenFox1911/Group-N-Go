@@ -1,6 +1,11 @@
 /*join a trip*/
 	INSERT INTO `Users_Trips`(`UserID`, `TripID`) VALUES(\\currentUserID, \\RequestedJoinID);
 
+/*leave a trip*/
+	UPDATE Users_Trips
+	SET Active = 0
+	WHERE UserID = *ID from Cookie*;
+
 /*Add a Trip(and immediately join)*/
 Insert INTO `Trips`(`StartLocationID`, `EndLocationID`) 
 		VALUES(
