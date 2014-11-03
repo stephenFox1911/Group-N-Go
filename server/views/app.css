@@ -39,7 +39,7 @@ border: 1px solid #ddd;
 border-top-color: transparent;
 }
 
-.input-group {
+/*.input-group {
 	margin-bottom: 10px;
 }
 
@@ -52,7 +52,7 @@ border-top-color: transparent;
 	padding-left: 10px !important;
 	padding-right: 10px !important;
 }
-
+*/
 .angular-google-map {
 	height: 100%;
 }

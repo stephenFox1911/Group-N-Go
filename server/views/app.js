@@ -50,27 +50,67 @@ controller('IndexCtrl', function ($scope, $modal, $log, $location, authService) 
 		authService.logOut();
 		$location.path('/home');
 
-	}
+	};
 
-	$scope.open = function (size) {
+	var ModalInstance;
 
-	    var modalInstance = $modal.open({
+	$scope.searchNearby = function() {
+		// console.log("searching nearby");
+
+		ModalInstance = $modal.open({
+			templateUrl: 'views/close.html',
+			controller: 'SearchNearbyCtrl',
+
+			resolve: {
+				items: function () {
+					return $scope.items;
+				}
+			}
+		})
+	};
+
+	$scope.open = function () {
+
+	    ModalInstance = $modal.open({
 	      templateUrl: 'views/find.html',
 	      controller: 'ModalInstanceCtrl',
-	      size: size,
+
 	      resolve: {
 	        items: function () {
-	          return $scope.items;
+	        	return $scope.items;
 	        }
 	      }
     });
 
-    modalInstance.result.then(function (selectedItem) {
-      $scope.selected = selectedItem;
-    }, function () {
-      $log.info('Modal dismissed at: ' + new Date());
-    });
+
+
+    // addTripModalInstance.result.then(function (selectedItem) {
+    //   $scope.selected = selectedItem;
+    // }, function () {
+    //   $log.info('Modal dismissed at: ' + new Date());
+    // });
   };
+}).
+
+controller('SearchNearbyCtrl', function ($scope, $modalInstance, $log, dataService){
+
+	$scope.searchCloseTrips = function() {
+
+		// $log.info('searching nearby');
+		// console.log("getting trips");
+
+		dataService.getCloseTrips($scope.location).then(function(data){
+			// $log.info(data);
+			$modalInstance.close();
+		});
+
+	};
+
+	$scope.cancel = function() {
+		console.log('closing');
+		$modalInstance.dismiss('cancel');
+	};
+
 }).
 
 controller('ModalInstanceCtrl', function ($scope, $modalInstance, $log, $http) {
@@ -111,35 +151,35 @@ controller('ModalInstanceCtrl', function ($scope, $modalInstance, $log, $http) {
 	};
 });
 
-app.factory('getTrips', function($log, $http) {
+// app.factory('getTrips', function($log, $http) {
 
-	var trips = [];
+// 	var trips = [];
 
-	return {
-		loadTrips: function() {
-			$log.info("getting trips...");
-			$http({
-				method: 'GET',
-				url: "http://www.corsproxy.com/groupngo.website/api/trips"
-			})	
-			.success(function(data){
-				trips = data;
-				$log.info(trips);
-			})
-			.error(function(data, status){
-				$log.info(status);
-			});
-		},
+// 	return {
+// 		loadTrips: function() {
+// 			$log.info("getting trips...");
+// 			$http({
+// 				method: 'GET',
+// 				url: "http://www.corsproxy.com/groupngo.website/api/trips"
+// 			})	
+// 			.success(function(data){
+// 				trips = data;
+// 				$log.info(trips);
+// 			})
+// 			.error(function(data, status){
+// 				$log.info(status);
+// 			});
+// 		},
 
-		allTrips: function() {
-			return trips;
-		}
-	}
-});
+// 		allTrips: function() {
+// 			return trips;
+// 		}
+// 	}
+// });
 
-app.controller('loginCtrl', function($scope){
+// app.controller('loginCtrl', function($scope){
 
-});
+// });
 
 var serviceBase = "https://cors-anywhere.herokuapp.com/groupngo.website";
 app.constant('ngAuthSettings', {

@@ -24,7 +24,7 @@
   <div class="navbar navbar-default navbar-fixed-top" role="navigation">
     <div class="container">
       <div class="navbar-header">
-        <a class="btn btn-primary with-ripple" ng-hide="!authentication.isAuth">Search Nearby</a>
+        <a class="btn btn-primary with-ripple" ng-hide="!authentication.isAuth" ng-click="searchNearby()">Search Nearby</a>
         <a class="btn btn-primary with-ripple" ng-hide="!authentication.isAuth" ng-click="open()">Add Trip</a>
         <a class="btn btn-primary with-ripple" ng-hide="!authentication.isAuth" ng-click="logout()">Log Out</a>
         <a class="navbar-brand" href="#/">Group'n'Go</a>

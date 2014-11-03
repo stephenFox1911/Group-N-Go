@@ -1,34 +1,68 @@
-var sharedApp = angular.module('sharedApp', []);
+"use strict";
 
-sharedApp.factory('getTrips', function($log, $http) {
+app.factory('dataService', function($http, $q, ngAuthSettings){
+
+    var serviceBase = ngAuthSettings.apiServiceBaseUri;
+    var dataServiceFactory = {};
 
 	var trips = [];
 
-	return {
-		loadTrips: function() {
-			$log.info("getting trips...");
-			$http({
-				method: 'GET',
-				url: "http://www.corsproxy.com/groupngo.website/api/trips"
-			})	
-			.success(function(data){
-				trips = data;
-				$log.info(trips);
-			})
-			.error(function(data, status){
-				$log.info(status);
-			});
-		},
+	var _getCloseTrips = function(location){
 
-		allTrips: function() {
-			return trips;
-		}
+		var request = $http({
+			method: 'GET',
+			url: serviceBase + '/api/close?slocation=' + location
+		});
+
+        var deferred = $q.defer();
+
+		request.success(function(data){
+
+			trips = data;
+			// console.log(trips);
+			deferred.resolve(trips);
+
+		})
+		.error(function(error, status){
+            deferred.reject(err);
+		});
+
+		return deferred.promise;
+
+	};
+
+	var _getAllTrips = function(){
+
+		var request = $http({
+			method: 'GET',
+			url: serviceBase + '/api/trips',
+		});
+
+        var deferred = $q.defer();
+
+		request.success(function(data){
+
+			trips = data;
+			// console.log(trips);
+			deferred.resolve(trips);
+
+		})
+		.error(function(error, status){
+            deferred.reject(err);
+		});
+
+		return deferred.promise;
+
+	};
+
+	var _trips = function() {
+		return trips;
 	}
 
-		// return trips;
-});
+	dataServiceFactory.getAllTrips = _getAllTrips;
+	dataServiceFactory.getCloseTrips = _getCloseTrips;
+	dataServiceFactory.getTrips = _trips;
 
-sharedApp.controller('sharedCtrl', function($scope, getTrips){
-	getTrips.loadTrips();
-	$scope.shared = getTrips.allTrips();
-});
+	return dataServiceFactory;
+
+})
