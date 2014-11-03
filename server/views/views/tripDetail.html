@@ -1,11 +1,44 @@
 <div class="modal-header">
-    <h3 class="modal-title">Trip ID: {{trip.ID}}</h3>
+    <h3 class="modal-title">Trip: {{trip.ID}}</h3>
 </div>
 <div class="modal-body">
     <div class="container-fluid">
-        <p>Captain:</p>
-        <p>Trip members:</p>
+<!--     	<div class="row">
+    	</div>
+        <h4>Captain: {{captain.FirstName}} {{captain.LastName}}</h4>
+        <h4>Trip members: </h4>
+        <h4 ng-repeat="member in members">{{member.FirstName}} {{member.LastName}}</h4> -->
+	    <div class="list-group">
+		    <div class="list-group-item">
+		        <div class="row-action-primary">
+		            <i class=""></i>
+		        </div>
+		        <div class="row-content">
+		            <div class="least-content">Captain</div>
+		            <h4 class="list-group-item-heading">{{captain.FirstName}} {{captain.LastName}}</h4>
+		            <p>UserName: {{captain.UserName}}</p>
+		        </div>
+		    </div>
+		    <div class="list-group-separator"></div>
+
+		    <div ng-repeat = "member in members">
+		   	<div class="list-group-item">
+		        <div class="row-action-primary">
+		            <i class=""></i>
+		        </div>
+		        <div class="row-content">
+		            <!-- <div class="least-content">Captain</div> -->
+		            <h4 class="list-group-item-heading">{{member.FirstName}} {{member.LastName}}</h4>
+  		            <p>UserName: {{member.UserName}}</p>
+
+		        </div>
+		    </div>
+		    <div class="list-group-separator"></div>
+			</div>
+		</div>
+
     </div>
+
 </div>
 <div class="modal-footer">
 

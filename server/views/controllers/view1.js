@@ -4,9 +4,9 @@ app.controller('View1Ctrl', function($scope, $http, $log, $modal, dataService) {
 
 	// $scope.trips = [];
 	// // $log.info("loading trips");
-	// $scope.selected = {
-	// 	trip: {}
-	// };
+	$scope.selected = {
+		trip: {}
+	};
 
 	// $http({
 	// 	method: 'GET',
@@ -28,7 +28,7 @@ app.controller('View1Ctrl', function($scope, $http, $log, $modal, dataService) {
 
 	$scope.trips = [];
 	$scope.service = dataService;
-	
+
 
 	dataService.getAllTrips().then(function(data){
 		//$scope.trips = data;
@@ -50,7 +50,6 @@ app.controller('View1Ctrl', function($scope, $http, $log, $modal, dataService) {
 	    var modalInstance = $modal.open({
 	      templateUrl: 'views/tripDetail.html',
 	      controller: 'TripActionCtrl',
-	      size: 'small',
 	      resolve: {
 	        trip: function () {
 	          return $scope.selected.trip;
@@ -58,7 +57,7 @@ app.controller('View1Ctrl', function($scope, $http, $log, $modal, dataService) {
 	      }
     	});
 
-		console.log($scope.selectedTrip);
+		// console.log($scope.selectedTrip);
 
 	    modalInstance.result.then(function () {
 
@@ -69,10 +68,26 @@ app.controller('View1Ctrl', function($scope, $http, $log, $modal, dataService) {
 
 })
 
-.controller('TripActionCtrl', function($scope, $modalInstance, trip){
+.controller('TripActionCtrl', function($scope, $modalInstance, trip, dataService){
+
 	$scope.trip = trip;
+	$scope.members = [];
+
+	dataService.getTripDetail($scope.trip.ID).then(function(data){
+		console.log(data);
+		$scope.captain = data[0];
+		$scope.members = data;
+		$scope.members.splice(0, 1);
+		console.log($scope.captain);
+		console.log($scope.members);
+	});
 
 	$scope.cancel = function () {
 		$modalInstance.dismiss('cancel');
 	};
+
+	$scope.joinleave = function () {
+
+	};
+
 });

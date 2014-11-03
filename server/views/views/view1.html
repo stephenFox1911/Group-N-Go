@@ -2,18 +2,18 @@
 		<div class="list-group" style="margin-top:15px">
 			<div ng-repeat="trip in trips">
 				<a ng-click="selected.trip = trip; popup()">
-				<div class="list-group-item">
-			        <div class="row-action-primary">
-			            <i class=""></i>
-			        </div>
-			        <div class="row-content">
-			            <div class="action-secondary"><i class="icon-material-info"></i></div>
-			            <h4 class="list-group-item-heading">Trip ID: {{trip.ID}}</h4>
-			            <p class="list-group-item-text">Start location: {{trip.slocation.name}}</p>
-			            <p class="list-group-item-text">End location: {{trip.elocation.name}}</p>
-			        </div>
-				</div>
-				<div class="list-group-separator"></div>
+					<div class="list-group-item">
+				        <div class="row-action-primary">
+				            <i class=""></i>
+				        </div>
+				        <div class="row-content">
+				            <div class="action-secondary"><i class="icon-material-info"></i></div>
+				            <h4 class="list-group-item-heading">Trip ID: {{trip.ID}}</h4>
+				            <p class="list-group-item-text">Start location: {{trip.slocation.name}}</p>
+				            <p class="list-group-item-text">End location: {{trip.elocation.name}}</p>
+				        </div>
+					</div>
+					<div class="list-group-separator"></div>
 				</a>
 			</div>
 		</div>
