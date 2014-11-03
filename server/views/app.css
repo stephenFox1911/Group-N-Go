@@ -39,6 +39,11 @@ border: 1px solid #ddd;
 border-top-color: transparent;
 }
 
+.navbar .btn {
+	padding-left: 10px;
+	padding-right: 10px;
+}
+
 /*.input-group {
 	margin-bottom: 10px;
 }

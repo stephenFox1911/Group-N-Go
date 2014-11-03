@@ -12,21 +12,28 @@
 
   <link rel="icon" href="GNG2icon.png" type="image/png">
 
-  <link rel="stylesheet" href="bower_components/html5-boilerplate/css/normalize.css">
-  <link rel="stylesheet" href="bower_components/html5-boilerplate/css/main.css">
+  <!-- <link rel="stylesheet" href="bower_components/html5-boilerplate/css/normalize.css"> -->
+  <!-- <link rel="stylesheet" href="bower_components/html5-boilerplate/css/main.css"> -->
 
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
-  <link rel="stylesheet" href="bower_components/bootstrap-material-design/css-compiled/material.css">
-  <link rel="stylesheet" href="bower_components/bootstrap-material-design/css-compiled/ripples.css">
+  <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="bower_components/bootstrap-material-design/dist/css/ripples.min.css">
+
+  <link rel="stylesheet" href="bower_components/bootstrap-material-design/dist/css/material-wfont.min.css">
+  <!-- <link rel="stylesheet" href="bower_components/bootstrap-material-design/dist/css/material.min.css"> -->
+
   <link rel="stylesheet" href="app.css">
 </head>
 <body ng-controller="IndexCtrl">
   <div class="navbar navbar-default navbar-fixed-top" role="navigation">
     <div class="container">
       <div class="navbar-header">
-        <a class="btn btn-primary with-ripple" ng-hide="!authentication.isAuth" ng-click="searchNearby()">Search Nearby</a>
-        <a class="btn btn-primary with-ripple" ng-hide="!authentication.isAuth" ng-click="open()">Add Trip</a>
-        <a class="btn btn-primary with-ripple" ng-hide="!authentication.isAuth" ng-click="logout()">Log Out</a>
+        <a class="btn btn-primary btn-raised" ng-hide="!authentication.isAuth" ng-click="searchNearby()">
+          <i class="mdi-action-search"></i>
+        </a>
+        <a class="btn btn-primary btn-raised" ng-hide="!authentication.isAuth" ng-click="open()">
+          <i class="mdi-content-add"></i>
+        </a>
+        <a class="btn btn-primary btn-raised" ng-hide="!authentication.isAuth" ng-click="logout()">Log Out</a>
         <a class="navbar-brand" href="#/">Group'n'Go</a>
       </div>
           <!-- <ul class="nav navbar-nav navbar-right"> -->
@@ -52,41 +59,40 @@
   <!-- load 3rd party libraries -->
   <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
 
-  <script src="./bower_components/angular/angular.js"></script>
-  <script src="./bower_components/angular-route/angular-route.js"></script>
-  <script src="./bower_components/angular-bootstrap/ui-bootstrap-tpls.min.js"></script>
-  <script src="./bower_components/angular-local-storage/dist/angular-local-storage.min.js"></script>
+  <script src="bower_components/angular/angular.js"></script>
+  <script src="bower_components/angular-route/angular-route.js"></script>
+  <script src="bower_components/angular-bootstrap/ui-bootstrap-tpls.min.js"></script>
+  <script src="bower_components/angular-local-storage/dist/angular-local-storage.min.js"></script>
 
-  <script src="./components/version/version.js"></script>
-  <script src="./components/version/version-directive.js"></script>
-  <script src="./components/version/interpolate-filter.js"></script>
-
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+  <script src="components/version/version.js"></script>
+  <script src="components/version/version-directive.js"></script>
+  <script src="components/version/interpolate-filter.js"></script>
   <script src="arrive-2.0.0.min.js"></script>
 
-  <script src="./bower_components/bootstrap-material-design/scripts/material.js"></script>
-  <script src="./bower_components/bootstrap-material-design/scripts/ripples.js"></script>
+  <script src="//code.jquery.com/jquery-1.10.2.min.js"></script>
+  <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+  <script src="bower_components/bootstrap-material-design/dist/js/ripples.js"></script>
+  <script src="bower_components/bootstrap-material-design/dist/js/material.js"></script>
 
   <script src="//cdnjs.cloudflare.com/ajax/libs/bluebird/1.2.2/bluebird.min.js"></script>
   <script src="//cdnjs.cloudflare.com/ajax/libs/lodash.js/2.4.1/lodash.min.js" type="text/javascript"></script>
   <script src="http://rawgit.com/angular-ui/angular-google-maps/master/dist/angular-google-maps.js"></script>
 
-
   <script src="bower_components/html5-boilerplate/js/vendor/modernizr-2.6.2.min.js"></script>
 
   <!-- load app main script -->
-  <script src="./app.js"></script>
+  <script src="app.js"></script>
 
   <!-- load services -->
-  <script src="./services/service.js"></script>
-  <script src="./services/authService.js"></script>
+  <script src="services/service.js"></script>
+  <script src="services/authService.js"></script>
 
   <!-- load controllers -->
-  <script type="text/javascript" src="./controllers/view1.js"></script>
-  <script type="text/javascript" src="./controllers/view2.js"></script>
-  <script type="text/javascript" src="./controllers/login.js"></script>
-  <script type="text/javascript" src="./controllers/home.js"></script>
-  <script type="text/javascript" src="./controllers/signup.js"></script>
+  <script type="text/javascript" src="controllers/view1.js"></script>
+  <script type="text/javascript" src="controllers/view2.js"></script>
+  <script type="text/javascript" src="controllers/login.js"></script>
+  <script type="text/javascript" src="controllers/home.js"></script>
+  <script type="text/javascript" src="controllers/signup.js"></script>
 
 </body>
 </html>
