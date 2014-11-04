@@ -105,6 +105,7 @@ router.get('/api/close/', function(req,res){
 //returns all active trips
 router.get('/api/trips', function(req, res) {
         var sql = squel.select()
+	    .distinct()
 	    .field("trips.ID")
 	    .field("sl.Name", "sname")
 	    .field("sl.Lat", "slat")
