@@ -128,11 +128,11 @@ router.post('/api/login/', function(req, res){
 		var unamecrypt = crypto.createCipher('aes192', 'BuzzTrip');
 		unamecrypt.update(""+uid);
 		res.cookie('udntf', unamecrypt.final(), { maxAge: 900000, httpOnly: true });
-		return res.render('views/view1');
+		return res.send({Success: 'True'});
 	    }
 	    else{
 		console.log('Invalid Pass');
-		return res.send({success: 'False', message: 'passwords do not match'});
+		return res.send({Success: 'False', Error: 'passwords do not match'});
 	    }
         }
     });
