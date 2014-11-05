@@ -11,9 +11,11 @@ app.controller('LoginCtrl', function($scope, $location, $http, authService){
 	$scope.login = function () {
 
         authService.login($scope.loginData).then(function (response) {
-
-            $location.path('/view1');
-
+        	console.log(response);
+        	if(response.Success == "True")
+	            $location.path('/view1');
+	        else
+	        	$scope.message = response.Error;
         },
         function (err) {
             $scope.message = err.error_description;

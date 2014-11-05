@@ -1,5 +1,5 @@
 'use strict';
-app.factory('authService', ['$http', '$q', 'localStorageService', 'ngAuthSettings', function ($http, $q, localStorageService, ngAuthSettings) {
+app.factory('authService', ['$http', '$q', 'localStorageService', 'ngAuthSettings', '$cookieStore', function ($http, $q, localStorageService, ngAuthSettings, cookieStore) {
 
     var serviceBase = ngAuthSettings.apiServiceBaseUri;
     var authServiceFactory = {};
@@ -53,14 +53,23 @@ app.factory('authService', ['$http', '$q', 'localStorageService', 'ngAuthSetting
 
         var deferred = $q.defer();
 
-        request.success(function(response){
-            _authentication.isAuth = true;
-            _authentication.userName = loginData.uname;
+        request.success(function(data, status, headers, config){
+            console.log(data);
+
+            if (data["Success"] == "True") {
+                // $cookieStore.put('key', response.cookie);
+                console.log(headers());
+
+                _authentication.isAuth = true;
+                _authentication.userName = loginData.uname;
+            }
+
+
             // _authentication.useRefreshTokens = loginData.useRefreshTokens;
             
             // localStorageService.set('authorizationData', { token: response.access_token, userName: loginData.userName, refreshToken: "", useRefreshTokens: false });
-            console.log(_authentication.isAuth);
-            deferred.resolve(response);
+            // console.log(_authentication.isAuth);
+            deferred.resolve(data);
         })
         .error(function(err, status) {
             // _logOut();

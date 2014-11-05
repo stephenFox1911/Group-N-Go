@@ -6,7 +6,8 @@ var app = angular.module('myApp', [
 	'myApp.version',
 	'ui.bootstrap',
 	'google-maps'.ns(),
-	'LocalStorageModule'
+	'LocalStorageModule',
+	'ngCookies'
 ]).
 
 config(['$routeProvider', function($routeProvider) {

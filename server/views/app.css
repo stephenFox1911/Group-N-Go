@@ -44,7 +44,7 @@ border-top-color: transparent;
 	padding-right: 10px;
 }
 
-/*.input-group {
+.input-group {
 	margin-bottom: 10px;
 }
 
@@ -54,10 +54,10 @@ border-top-color: transparent;
 }
 
 .inputbutton {
-	padding-left: 10px !important;
+	padding-left: 15px !important;
 	padding-right: 10px !important;
 }
-*/
+
 .angular-google-map {
 	height: 100%;
 }
@@ -84,12 +84,14 @@ html, body {
 }
 
 body {
-	padding-top: 60px;
+	padding-top: 50px;
 }
 
 .jumbotron {
 	height: 100%;
-	margin: 0;
+	padding-top: 50px !important;
+	/*margin: 0;*/
+	margin-bottom: 0 !important;
 }
 /*
 .navbar-right {
@@ -97,11 +99,3 @@ body {
 	right: 20px;
 }
 */
-
-  .css-form input.ng-invalid.ng-dirty {
-    background-color: #FA787E;
-  }
-
-  .css-form input.ng-valid.ng-dirty {
-    background-color: #78FA89;
-  }
