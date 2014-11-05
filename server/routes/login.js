@@ -128,7 +128,7 @@ router.post('/api/login/', function(req, res){
 		var unamecrypt = crypto.createCipher('aes192', 'BuzzTrip');
 		unamecrypt.update(""+uid);
 		res.cookie('udntf', unamecrypt.final(), { maxAge: 900000, httpOnly: true });
-		return res.send({Success: 'True', Access-Control-Allow-Origin: 'True'});
+		return res.send({Success: 'True'});
 	    }
 	    else{
 		console.log('Invalid Pass');
