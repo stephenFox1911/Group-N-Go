@@ -17,8 +17,11 @@ app.controller('LoginCtrl', function($scope, $location, $http, authService){
 	        else
 	        	$scope.message = response.Error;
         },
-        function (err) {
-            $scope.message = err.error_description;
+        function (error) {
+
+        	console.log(status);
+
+            $scope.message = "Error " + error.status + " (" + error.description + ")";
         });
     };
 

@@ -80,8 +80,12 @@ app.factory('authService', ['$http', '$q', 'localStorageService', 'ngAuthSetting
             deferred.resolve(data);
         })
         .error(function(err, status) {
-            // _logOut();
-            deferred.reject(err);
+
+            var error = {'status': status,
+                        'description': err};
+                        
+            deferred.reject(error);
+
         });
 
         // $http.post(serviceBase + 'token', data, { headers: { 'Content-Type': 'application/x-www-form-urlencoded' } }).success(function (response) {

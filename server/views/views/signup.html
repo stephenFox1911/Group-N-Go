@@ -15,11 +15,12 @@
                 <input type="text" class="form-control" placeholder="First Name" ng-model="registration.fname" required>
                 <input type="text" class="form-control" placeholder="Last Name" ng-model="registration.lname" required>
 			    <button class="btn btn-lg btn-primary btn-block" type="submit" ng-click="signUp()">Submit</button>
+                <div data-ng-hide="message == ''" class="alert alert-danger">
+                    {{message}}
+                </div>
 			</div>
 
-            <div data-ng-hide="message == ''" ng-class="(savedSuccessfully) ? 'alert alert-success' : 'alert alert-danger'">
-                {{message}}
-            </div>
+
         </div>
         <div class="col-md-4">
             &nbsp;
