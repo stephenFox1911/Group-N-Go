@@ -1,5 +1,5 @@
 'use strict';
-app.factory('authService', ['$http', '$q', 'localStorageService', 'ngAuthSettings', '$cookieStore', function ($http, $q, localStorageService, ngAuthSettings, cookieStore) {
+app.factory('authService', ['$http', '$q', 'localStorageService', 'ngAuthSettings', '$cookies', '$timeout', function ($http, $q, localStorageService, ngAuthSettings, $cookies, $timeout) {
 
     var serviceBase = ngAuthSettings.apiServiceBaseUri;
     var authServiceFactory = {};
@@ -44,22 +44,30 @@ app.factory('authService', ['$http', '$q', 'localStorageService', 'ngAuthSetting
         // if (loginData.useRefreshTokens) {
         //     data = data + "&client_id=" + ngAuthSettings.clientId;
         // }
+        loginData['Access-Control-Allow-Credentials'] = true;
+        loginData['Access-Control-Allow-Origin'] = true;
 
+        console.log(loginData);
         var request = $http({
             url: serviceBase + '/api/login',
             method: 'POST',
-            headers: loginData
+            headers: loginData,
+            // withCredentials: true
         });
 
         var deferred = $q.defer();
 
         request.success(function(data, status, headers, config){
-            console.log(data);
+            // console.log(data);
 
             if (data["Success"] == "True") {
                 // $cookieStore.put('key', response.cookie);
                 console.log(headers());
 
+                $timeout(function(){
+                    console.log($cookies.session)
+                });  
+                // console.log($cookies.session);
                 _authentication.isAuth = true;
                 _authentication.userName = loginData.uname;
             }

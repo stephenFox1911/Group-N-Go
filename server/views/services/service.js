@@ -93,7 +93,7 @@ app.factory('dataService', function($http, $q, ngAuthSettings){
 		})
 		.error(function(error, status){
 			console.log(error);
-		})
+		});
 	};
 
 	var _leaveTrip = function(id){
@@ -108,7 +108,7 @@ app.factory('dataService', function($http, $q, ngAuthSettings){
 		.error(function(error, status){
 			console.log(error);
 		});
-	}
+	};
 
 	dataServiceFactory.getAllTrips = _getAllTrips;
 	dataServiceFactory.getCloseTrips = _getCloseTrips;

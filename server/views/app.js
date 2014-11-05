@@ -35,7 +35,7 @@ config(['$routeProvider', function($routeProvider) {
 }]).
 
 controller('IndexCtrl', function ($scope, $modal, $log, $location, authService) {
-
+	$.material.init();
 	// getTrips.loadTrips();
 
 	// $scope.trips = getTrips.allTrips();
