@@ -1,5 +1,5 @@
 var express = require('express');
-//var cookieparser = require('cookie-parser');
+var cookieparser = require('cookie-parser');
 var rest = require('restler');
 var crypto = require('crypto');
 var router = express.Router();
@@ -128,7 +128,7 @@ router.post('/api/login/', function(req, res){
 		var unamecrypt = crypto.createCipher('aes192', 'BuzzTrip');
 		unamecrypt.update(""+uid);
 		res.cookie('udntf', unamecrypt.final(), { maxAge: 900000, httpOnly: true });
-		return res.send({Success: 'True'});
+		return res.send({Success: 'True', Access-Control-Allow-Origin: 'True'});
 	    }
 	    else{
 		console.log('Invalid Pass');
