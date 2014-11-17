@@ -1,6 +1,6 @@
 'use strict';
 
-app.config(['GoogleMapApiProvider'.ns(), function (GoogleMapApi) {
+app.config(['uiGmapGoogleMapApiProvider', function (GoogleMapApi) {
     GoogleMapApi.configure({
         //    key: 'your api key',
         v: '3.17',
@@ -8,7 +8,7 @@ app.config(['GoogleMapApiProvider'.ns(), function (GoogleMapApi) {
     });
 }])
 
-.controller('View2Ctrl', ['$scope', 'GoogleMapApi'.ns(), '$log', '$http', 'dataService', function($scope, GoogleMapApi, $log, $http, dataService) {
+.controller('View2Ctrl', ['$scope', 'uiGmapGoogleMapApi', '$log', '$http', 'dataService', function($scope, GoogleMapApi, $log, $http, dataService) {
 	
 	$scope.map = {
 	    center: {

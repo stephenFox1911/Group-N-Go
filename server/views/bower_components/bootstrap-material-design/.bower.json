@@ -1,6 +1,6 @@
 {
   "name": "Material Design for Bootstrap",
-  "version": "0.1.5",
+  "version": "0.1.6",
   "homepage": "http://fezvrasta.github.io/bootstrap-material-design",
   "authors": [
     "Federico Zivolo <info@mywebexpression.com>"
@@ -38,11 +38,14 @@
     "android"
   ],
   "license": "https://github.com/FezVrasta/bootstrap-material-design/blob/master/LICENSE.md",
-  "_release": "0.1.5",
+  "dependencies": {
+    "jquery": "~2.1.1"
+  },
+  "_release": "0.1.6",
   "_resolution": {
     "type": "version",
-    "tag": "0.1.5",
-    "commit": "c54dd17efc18a71bdfdcab658c1cbc66ee4346ad"
+    "tag": "0.1.6",
+    "commit": "aaf8899db09a48dd572ce184b0b434605e47819b"
   },
   "_source": "git://github.com/FezVrasta/bootstrap-material-design.git",
   "_target": "*",

@@ -5,7 +5,7 @@ var app = angular.module('myApp', [
 	'ngRoute',
 	'myApp.version',
 	'ui.bootstrap',
-	'google-maps'.ns(),
+	'uiGmapgoogle-maps',
 	'LocalStorageModule',
 	'ngCookies'
 ]).
@@ -145,7 +145,7 @@ controller('ModalInstanceCtrl', function ($scope, $modalInstance, $log, $http) {
 		
 		$modalInstance.close();
 
-	}
+	};
 
 	$scope.cancel = function () {
 		$modalInstance.dismiss('cancel');

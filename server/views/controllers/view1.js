@@ -87,7 +87,8 @@ app.controller('View1Ctrl', function($scope, $http, $log, $modal, dataService) {
 	};
 
 	$scope.joinleave = function () {
-
+		console.log($scope.members.length);
+		dataService.joinTrip($scope.trip.ID);
 	};
 
 });
