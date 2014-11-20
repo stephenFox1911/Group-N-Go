@@ -61,12 +61,15 @@ app.factory('authService', ['$http', '$q', 'localStorageService', 'ngAuthSetting
             // console.log(data);
 
             if (data["Success"] == "True") {
-                // $cookieStore.put('key', response.cookie);
-                console.log(headers());
 
-                $timeout(function(){
-                    console.log($cookies.session)
-                });  
+                console.log(headers()['cookie']);
+
+                localStorageService.set('authorizationData', {cuc: headers()['cookie']});
+                console.log(localStorageService.get('authorizationData'));
+
+                // $timeout(function(){
+                //     console.log($cookies.session)
+                // });  
                 // console.log($cookies.session);
                 _authentication.isAuth = true;
                 _authentication.userName = loginData.uname;
@@ -117,6 +120,8 @@ app.factory('authService', ['$http', '$q', 'localStorageService', 'ngAuthSetting
 
         _authentication.isAuth = false;
         _authentication.userName = "";
+        localStorageService.clearAll();
+        // console.log(localStorageService.get('authorizationData'));
         // _authentication.useRefreshTokens = false;
 
     };

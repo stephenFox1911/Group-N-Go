@@ -1,6 +1,6 @@
 "use strict";
 
-app.factory('dataService', function($http, $q, ngAuthSettings){
+app.factory('dataService', ['$http', '$q', 'ngAuthSettings', 'localStorageService', function($http, $q, ngAuthSettings, localStorageSerivce){
 
     var serviceBase = ngAuthSettings.apiServiceBaseUri;
     var dataServiceFactory = {};
@@ -11,7 +11,9 @@ app.factory('dataService', function($http, $q, ngAuthSettings){
 
 		var request = $http({
 			method: 'GET',
-			url: serviceBase + '/api/close?slocation=' + location
+			url: serviceBase + '/api/close?slocation=' + location,
+			// headers: {test: 'a'}
+			headers: localStorageSerivce.get('authorizationData')
 		});
 
         var deferred = $q.defer();
@@ -36,6 +38,7 @@ app.factory('dataService', function($http, $q, ngAuthSettings){
 		var request = $http({
 			method: 'GET',
 			url: serviceBase + '/api/trips',
+			headers: localStorageSerivce.get('authorizationData')
 		});
 
         var deferred = $q.defer();
@@ -62,7 +65,8 @@ app.factory('dataService', function($http, $q, ngAuthSettings){
 	var _getTripDetail = function(id){
 		var request = $http({
 			method: 'GET',
-			url: serviceBase + '/api/trips/' + id
+			url: serviceBase + '/api/trips/' + id,
+			headers: localStorageSerivce.get('authorizationData')
 		});
 
         var deferred = $q.defer();
@@ -85,7 +89,8 @@ app.factory('dataService', function($http, $q, ngAuthSettings){
 	var _joinTrip = function(id){
 		var request = $http({
 			method: 'POST',
-			url: serviceBase + '/api/trips/' + id
+			url: serviceBase + '/api/trips/' + id,
+			headers: localStorageSerivce.get('authorizationData')
 		});
 
 		request.success(function(data){
@@ -99,7 +104,8 @@ app.factory('dataService', function($http, $q, ngAuthSettings){
 	var _leaveTrip = function(id){
 		var request = $http({
 			method: 'DELETE',
-			url: serviceBase + '/api/trips/' + id
+			url: serviceBase + '/api/trips/' + id,
+			headers: localStorageSerivce.get('authorizationData')
 		});
 
 		request.success(function(data){
@@ -120,4 +126,4 @@ app.factory('dataService', function($http, $q, ngAuthSettings){
 
 	return dataServiceFactory;
 
-})
+}]);
