@@ -114,36 +114,45 @@ controller('SearchNearbyCtrl', function ($scope, $modalInstance, $log, dataServi
 
 }).
 
-controller('ModalInstanceCtrl', function ($scope, $modalInstance, $log, $http) {
+controller('ModalInstanceCtrl', function ($scope, $modalInstance, $log, $http, dataService) {
 
 	$scope.searchGroup = function() {
 	
 		$log.info("searching");
 		$log.info($scope.slocation);
 		$log.info($scope.elocation);
-		
-		var request = $http({
-            method: 'POST',
-            url: 'http://groupngo.website/api/trips',
-			headers: {
-			    'slocation': $scope.slocation,
-			    'elocation': $scope.elocation
-			}
-        });
-        
-        request.success( function(data) {
 
-        	$log.info('posted');
-        	
-        	$scope.data = data;
-        	
-        });
-        
-        request.error( function(data, status){
-	       $log.info(status); 
-        });
+		dataService.postTrip($scope.slocation, $scope.elocation).then(function(data){
+
+			$modalInstance.close();
+			dataService.getAllTrips().then(function(data){
+				console.log("Updating trips");
+			});
+
+		});
 		
-		$modalInstance.close();
+		// var request = $http({
+  //           method: 'POST',
+  //           url: 'http://groupngo.website/api/trips',
+		// 	headers: {
+		// 	    'slocation': $scope.slocation,
+		// 	    'elocation': $scope.elocation
+		// 	}
+  //       });
+        
+  //       request.success( function(data) {
+
+  //       	$log.info('posted');
+        	
+  //       	$scope.data = data;
+        	
+  //       });
+        
+  //       request.error( function(data, status){
+	 //       $log.info(status); 
+  //       });
+		
+		// $modalInstance.close();
 
 	};
 

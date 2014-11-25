@@ -26,7 +26,7 @@ app.factory('dataService', ['$http', '$q', 'ngAuthSettings', 'localStorageServic
 
 		})
 		.error(function(error, status){
-            deferred.reject(err);
+            deferred.reject(error);
 		});
 
 		return deferred.promise;
@@ -51,7 +51,7 @@ app.factory('dataService', ['$http', '$q', 'ngAuthSettings', 'localStorageServic
 
 		})
 		.error(function(error, status){
-            deferred.reject(err);
+            deferred.reject(error);
 		});
 
 		return deferred.promise;
@@ -79,11 +79,44 @@ app.factory('dataService', ['$http', '$q', 'ngAuthSettings', 'localStorageServic
 
 		})
 		.error(function(error, status){
-            deferred.reject(err);
+            deferred.reject(error);
 		});
 
 		return deferred.promise;
 
+	};
+
+	var _postTrip = function(slocation, elocation){
+		
+		var headers = localStorageSerivce.get('authorizationData');
+		headers['slocation'] = slocation;
+		headers['elocation'] = elocation;
+		console.log(headers);
+
+
+		var request = $http({
+            method: 'POST',
+            url: serviceBase + '/api/trips',
+            headers: headers
+			// headers: {
+			//     'slocation': slocation,
+			//     'elocation': elocation,
+			//     localStorageSerivce.get('authorizationData')
+			// }
+        });
+
+        var deferred = $q.defer();
+
+        request.success(function(data){
+
+        	deferred.resolve(data);
+
+        })
+        .error(function(error, status){
+        	deferred.reject(error);
+        });
+
+        return deferred.promise;
 	};
 
 	var _joinTrip = function(id){
@@ -119,6 +152,7 @@ app.factory('dataService', ['$http', '$q', 'ngAuthSettings', 'localStorageServic
 	dataServiceFactory.getAllTrips = _getAllTrips;
 	dataServiceFactory.getCloseTrips = _getCloseTrips;
 	dataServiceFactory.getTripDetail = _getTripDetail;
+	dataServiceFactory.postTrip = _postTrip;
 	dataServiceFactory.joinTrip = _joinTrip;
 	dataServiceFactory.leaveTrip = _leaveTrip;
 	
