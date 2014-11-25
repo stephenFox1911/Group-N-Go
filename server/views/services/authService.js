@@ -64,7 +64,7 @@ app.factory('authService', ['$http', '$q', 'localStorageService', 'ngAuthSetting
 
                 console.log(headers()['cookie']);
 
-                localStorageService.set('authorizationData', {cuc: headers()['cookie']});
+                localStorageService.set('authorizationData', {cuc: headers()['cuc']});
                 console.log(localStorageService.get('authorizationData'));
 
                 // $timeout(function(){
