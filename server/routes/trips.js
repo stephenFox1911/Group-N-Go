@@ -1,6 +1,5 @@
 var express = require('express');
 var rest = require('restler');
-var crypto = require('crypto');
 var router = express.Router();
 //var cookies = require('./cookies');
 var squel = require('squel');
@@ -187,12 +186,16 @@ router.post('/api/trips/', function(req, res) {
 		console.log("Empty Requst");
 		return res.send({Success: 'False', Error: 'Empty Request'});
 	}
+	if(h.cuc == null || h.cuc.length<=10){
+		console.log("bad user");
+		console.log(h.cuc.length);
+		console.log(h.cuc);
+		return res.send({Success: 'False', Error: "Invalid user"});
+	}
         //get current userID from cookie
-	//var decrypt = crypto.createDecipher('aes192', 'BuzzTrip');
-	//decrypt.update(req.cookies.udntf);
-        var curruser = 1; //parseInt(decrypt.final());
-
-        leaveTrips(curruser);
+        var curruser = parseInt(h.cuc.substring(10));
+	console.log(curruser);
+	leaveTrips(curruser);
 
 	//start/end with locationID
         //num people
@@ -229,8 +232,10 @@ router.post('/api/trips/', function(req, res) {
                         .set("UserID", curruser)
                         .set("TripID", tripid)
                         .toString();
+//		    console.log(utsql);
                     connection.query(utsql, function(err, results){
                         if(err){
+			    console.log("error mapping to users_trips");
                             console.log(err);
                             return res.send({Success: 'False', Error: err});
                         }
@@ -247,7 +252,7 @@ router.post('/api/trips/', function(req, res) {
 
 router.post('/api/trips/:id', function(req, res){
 	var tripid = req.params.id;
-	var curruser = 2; //replace with value from cookie
+	var curruser = parseInt(h.cuc.substring(10));
 
 	leaveTrips(curruser);
 	
@@ -268,22 +273,20 @@ router.post('/api/trips/:id', function(req, res){
 
 //leave a trip
 router.delete('/api/trips/', function(req, res){
-	var curruser = 1; //replace with data from cookie
+	var curruser = parseInt(h.cuc.substring(10));
 	leaveTrips(curruser);
 });
 
 function leaveTrips(userID){
-var sql = squel.update()
+	var sql = squel.update()
 		.table("Users_Trips")
 		.set("Active", 0)
-		.where("UserID = ?", curruser)
+		.where("UserID = ?", userID)
 		.toString();
+	console.log(sql);
 	connection.query(sql, function(err, results){
 		if(err){
 			return res.send(err);
-		}
-		else{
-			return res.send({Success: 'True'});
 		}
 	});
 };

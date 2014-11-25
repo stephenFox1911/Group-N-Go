@@ -1,5 +1,4 @@
 var express = require('express');
-var cookieparser = require('cookie-parser');
 var rest = require('restler');
 var crypto = require('crypto');
 var router = express.Router();
@@ -9,7 +8,7 @@ squel.useFlavour('mysql');
 
 function rand(rlen){
     var text = "";
-    var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789`~!@#$%^&*()_+-=[]{};:<,>.?/";
+    var possible = "ABCDEFabcdef0123456789";
     for( var i=0; i < rlen; i++ )
         text += possible.charAt(Math.floor(Math.random() * possible.length));
     return text;
@@ -125,9 +124,8 @@ router.post('/api/login/', function(req, res){
 	    shasum.update(salt + h.pass);
 	    if(shasum.digest('hex') == passwrd){
 	        console.log('Logging in user: ' + h.uname);
-		var unamecrypt = crypto.createCipher('aes192', 'BuzzTrip');
-		unamecrypt.update(""+uid);
-		res.cookie('udntf', unamecrypt.final(), { maxAge: 900000, httpOnly: true });
+		var unamecrypt = rand(10) + uid.toString();
+		res.set('cuc', unamecrypt);
 		return res.send({Success: 'True'});
 	    }
 	    else{
@@ -138,9 +136,10 @@ router.post('/api/login/', function(req, res){
     });
 });
 
-router.post('/api/logout/', function(req, res){
-	res.clearCookie('udntf');
-	return res.render('views/home');
-});
+
+//router.post('/api/logout/', function(req, res){
+//	res.clearCookie('udntf');
+//	return res.render('views/home');
+//});
 
 module.exports = router;
