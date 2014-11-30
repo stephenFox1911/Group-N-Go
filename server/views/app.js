@@ -44,6 +44,7 @@ controller('IndexCtrl', function ($scope, $modal, $log, $location, authService) 
 	// $scope.login.isAuth = false;
 	// $scope.login.userName = 'Buzz';
 	$scope.authentication = authService.authentication;
+	console.log($scope.authentication.isAuth);
 
 	$scope.logout = function() {
 		// $scope.login.isAuth = false;
@@ -196,3 +197,7 @@ app.constant('ngAuthSettings', {
     apiServiceBaseUri: serviceBase,
     clientId: 'ngAuthApp'
 });
+
+app.run(['authService', function (authService) {
+    authService.fillAuthData();
+}]);
