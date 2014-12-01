@@ -98,10 +98,14 @@ app.factory('authService', ['$http', '$q', 'localStorageService', 'ngAuthSetting
     var _fillAuthData = function () {
 
         var authData = localStorageService.get('authorizationData');
-        var userName = localStorageService.get('uname').uname;
+        // var userName = localStorageService.get('uname').uname;
         if (authData) {
             _authentication.isAuth = true;
-            _authentication.userName = userName;
+            // _authentication.userName = userName;
+        }
+
+        if (localStorageService.get('uname')) {
+            _authentication.userName = localStorageService.get('uname').uname;
         }
 
     };
