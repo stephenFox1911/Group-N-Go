@@ -126,18 +126,23 @@ app.factory('dataService', ['$http', '$q', 'ngAuthSettings', 'localStorageServic
 			headers: localStorageSerivce.get('authorizationData')
 		});
 
+        var deferred = $q.defer();
+
 		request.success(function(data){
-			console.log(data);
+        	deferred.resolve(data);
 		})
 		.error(function(error, status){
-			console.log(error);
+        	deferred.reject(error);
 		});
+
+        return deferred.promise;
+
 	};
 
 	var _leaveTrip = function(id){
 		var request = $http({
-			method: 'DELETE',
-			url: serviceBase + '/api/trips/' + id,
+			method: 'POST',
+			url: serviceBase + '/api/leavetrips/',
 			headers: localStorageSerivce.get('authorizationData')
 		});
 

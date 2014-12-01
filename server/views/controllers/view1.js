@@ -1,6 +1,6 @@
 'use strict';
 
-app.controller('View1Ctrl', function($scope, $http, $log, $modal, dataService) {
+app.controller('View1Ctrl', function($scope, $http, $log, $modal, dataService, authService) {
 
 	// $scope.trips = [];
 	// // $log.info("loading trips");
@@ -68,27 +68,73 @@ app.controller('View1Ctrl', function($scope, $http, $log, $modal, dataService) {
 
 })
 
-.controller('TripActionCtrl', function($scope, $modalInstance, trip, dataService){
+.controller('TripActionCtrl', function($scope, $modalInstance, trip, dataService, authService){
 
 	$scope.trip = trip;
 	$scope.members = [];
+	$scope.actionString = "";
 
-	dataService.getTripDetail($scope.trip.ID).then(function(data){
-		console.log(data);
-		$scope.captain = data[0];
-		$scope.members = data;
-		$scope.members.splice(0, 1);
-		console.log($scope.captain);
-		console.log($scope.members);
-	});
+	$scope.authentication = authService.authentication;
+
+	$scope.isInTrip = function() {
+		
+		console.log($scope.authentication.userName);
+
+		if ($scope.captain != null)
+			if ($scope.authentication.userName == $scope.captain.UserName) {
+				// console.log($scope.captain.UserName);
+				return true;
+			}
+		for (var i=0; i < $scope.members.length; i++) {
+			// console.log($scope.authentication.userName);
+			// console.log($scope.members[i].UserName);
+			if ($scope.authentication.userName == $scope.members[i].UserName)
+				return true;
+		}
+		return false;
+	};
+
+	$scope.loadTripMembers = function() {
+		dataService.getTripDetail($scope.trip.ID).then(function(data){
+			// console.log(data);
+			$scope.captain = data[0];
+			$scope.members = data;
+			$scope.members.splice(0, 1);
+			// console.log($scope.captain);
+			// console.log($scope.members);
+			console.log($scope.isInTrip());
+			if ($scope.isInTrip())
+				$scope.actionString = "Leave";
+			else
+				$scope.actionString = "Join";
+		});
+	};
+
+	$scope.loadTripMembers();
 
 	$scope.cancel = function () {
+		dataService.getAllTrips();
 		$modalInstance.dismiss('cancel');
 	};
 
 	$scope.joinleave = function () {
-		console.log($scope.members.length);
-		dataService.joinTrip($scope.trip.ID);
+		// console.log($scope.members.length);
+		if (!$scope.isInTrip())
+			dataService.joinTrip($scope.trip.ID).then(function(data){
+				// console.log(data);
+				$scope.loadTripMembers();
+			});
+		else
+			dataService.leaveTrip($scope.trip.ID).then(function(data){
+				$scope.loadTripMembers();
+			});
 	};
+
+	// $scope.leave = function () {
+	// 	// console.log($scope.members.length);
+	// 	dataService.leaveTrip($scope.trip.ID).then(function(data){
+	// 		$scope.loadTripMembers();
+	// 	});
+	// };
 
 });

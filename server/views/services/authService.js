@@ -62,13 +62,12 @@ app.factory('authService', ['$http', '$q', 'localStorageService', 'ngAuthSetting
 
             if (data["Success"] == "True") {
 
-                console.log(headers()['cookie']);
-
                 localStorageService.set('authorizationData', {cuc: headers()['cuc']});
+                localStorageService.set('uname', {uname: loginData.uname});
                 // console.log(localStorageService.get('authorizationData'));
 
                 _authentication.isAuth = true;
-                // _authentication.userName = loginData.uname;
+                _authentication.userName = loginData.uname;
             }
 
             deferred.resolve(data);
@@ -89,6 +88,7 @@ app.factory('authService', ['$http', '$q', 'localStorageService', 'ngAuthSetting
     var _logOut = function () {
 
         localStorageService.remove('authorizationData');
+        localStorageService.remove('uname');
 
         _authentication.isAuth = false;
         _authentication.userName = "";
@@ -98,9 +98,10 @@ app.factory('authService', ['$http', '$q', 'localStorageService', 'ngAuthSetting
     var _fillAuthData = function () {
 
         var authData = localStorageService.get('authorizationData');
+        var userName = localStorageService.get('uname').uname;
         if (authData) {
             _authentication.isAuth = true;
-            // _authentication.userName = authData.userName;
+            _authentication.userName = userName;
         }
 
     };
