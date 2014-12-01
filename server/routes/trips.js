@@ -188,8 +188,10 @@ router.post('/api/trips/', function(req, res) {
 	}
 	if(h.cuc == null || h.cuc.length<=10){
 		console.log("bad user");
-		console.log(h.cuc.length);
-		console.log(h.cuc);
+		if(h.cuc != null){
+			console.log(h.cuc.length);
+			console.log(h.cuc);
+		}
 		return res.send({Success: 'False', Error: "Invalid user"});
 	}
         //get current userID from cookie
@@ -252,10 +254,17 @@ router.post('/api/trips/', function(req, res) {
 
 router.post('/api/trips/:id', function(req, res){
 	var tripid = req.params.id;
+	var h = req.headers;
+	if(h.cuc == null || h.cuc.length<=10){
+                console.log("bad user");
+                if(h.cuc != null){
+                        console.log(h.cuc.length);
+                        console.log(h.cuc);
+                }
+                return res.send({Success: 'False', Error: "Invalid user"});
+        }
 	var curruser = parseInt(h.cuc.substring(10));
-
 	leaveTrips(curruser);
-	
 	var sql = squel.insert()
 		.into("Users_Trips")
 		.set("UserID", curruser)
@@ -273,6 +282,15 @@ router.post('/api/trips/:id', function(req, res){
 
 //leave a trip
 router.delete('/api/trips/', function(req, res){
+	var h = req.headers;
+	if(h.cuc == null || h.cuc.length<=10){
+                console.log("bad user");
+                if(h.cuc != null){
+                        console.log(h.cuc.length);
+                        console.log(h.cuc);
+                }
+                return res.send({Success: 'False', Error: "Invalid user"});
+        }	
 	var curruser = parseInt(h.cuc.substring(10));
 	leaveTrips(curruser);
 });
