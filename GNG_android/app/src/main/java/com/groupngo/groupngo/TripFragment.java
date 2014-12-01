@@ -2,11 +2,13 @@ package com.groupngo.groupngo;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.app.ListFragment;
 import android.support.v4.view.ViewCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,7 +16,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 
-import com.groupngo.groupngo.dataService.DummyContent;
+import com.groupngo.groupngo.dataService.DataService;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -28,9 +30,12 @@ import org.json.JSONObject;
  */
 public class TripFragment extends android.support.v4.app.ListFragment implements OnTaskCompleted{
 
+    private SharedPreferences authenticationData;
+    private String cuc;
+
     private SwipeRefreshLayout mSwipeRefreshLayout;
 
-    private TripItemAdapter arrayAdapter;
+    private static TripItemAdapter arrayAdapter;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -69,12 +74,14 @@ public class TripFragment extends android.support.v4.app.ListFragment implements
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
 
-        arrayAdapter = new TripItemAdapter(getActivity(), DummyContent.ITEMS);
+        arrayAdapter = new TripItemAdapter(getActivity(), DataService.ITEMS);
 
 //        arrayAdapter = new ArrayAdapter<DummyContent.TripItem>(getActivity(),
 //                android.R.layout.simple_list_item_1, android.R.id.text1, DummyContent.ITEMS);
         // TODO: Change Adapter to display your content
         setListAdapter(arrayAdapter);
+
+
     }
 
 
@@ -95,6 +102,10 @@ public class TripFragment extends android.support.v4.app.ListFragment implements
         mListener = null;
     }
 
+    //refresh array
+    public static void refreshArray() {
+        arrayAdapter.notifyDataSetChanged();
+    }
 
     @Override
     public void onListItemClick(ListView l, View v, int position, long id) {
@@ -103,7 +114,7 @@ public class TripFragment extends android.support.v4.app.ListFragment implements
         if (null != mListener) {
             // Notify the active callbacks interface (the activity, if the
             // fragment is attached to one) that an item has been selected.
-                String tripID = DummyContent.ITEMS.get(position).id;
+                String tripID = DataService.ITEMS.get(position).id;
                 mListener.onFragmentInteraction(tripID);
 
         }
@@ -133,18 +144,24 @@ public class TripFragment extends android.support.v4.app.ListFragment implements
             @Override
             public void onRefresh() {
 
-                new DummyContent.loadTrips(new OnTaskCompleted() {
+                new DataService.loadTrips(new OnTaskCompleted() {
                     @Override
                     public void onTaskCompleted() {
                         mSwipeRefreshLayout.setRefreshing(false);
                         arrayAdapter.notifyDataSetChanged();
                     }
-                });
+                }, cuc);
 //                mSwipeRefreshLayout.setRefreshing(false);
 //                arrayAdapter.notifyDataSetChanged();
             }
         });
 
+        //load cuc from sharedPreferences
+        authenticationData = this.getActivity().getSharedPreferences("com.groupngo.groupngo", Context.MODE_PRIVATE);
+        Log.d("cuc in trip", "loading cuc");
+        if (authenticationData.getString("cuc", null) != null) {
+            cuc = authenticationData.getString("cuc", null);
+        }
 
 
         // Now return the SwipeRefreshLayout as this fragment's content view

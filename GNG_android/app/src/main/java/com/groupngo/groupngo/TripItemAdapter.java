@@ -7,23 +7,23 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
-import com.groupngo.groupngo.dataService.DummyContent;
+import com.groupngo.groupngo.dataService.DataService;
 
 import java.util.ArrayList;
 
 /**
  * Created by mickey on 11/16/14.
  */
-public class TripItemAdapter extends ArrayAdapter<DummyContent.TripItem> {
+public class TripItemAdapter extends ArrayAdapter<DataService.TripItem> {
 
-    public TripItemAdapter(Context context, ArrayList<DummyContent.TripItem> tripItems) {
+    public TripItemAdapter(Context context, ArrayList<DataService.TripItem> tripItems) {
         super(context, 0, tripItems);
     }
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         // Get the data item for this position
-        DummyContent.TripItem trip = getItem(position);
+        DataService.TripItem trip = getItem(position);
         // Check if an existing view is being reused, otherwise inflate the view
         if (convertView == null) {
             convertView = LayoutInflater.from(getContext()).inflate(R.layout.trip_item, parent, false);

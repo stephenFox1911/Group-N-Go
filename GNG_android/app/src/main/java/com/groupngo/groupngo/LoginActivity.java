@@ -6,9 +6,11 @@ import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.LoaderManager.LoaderCallbacks;
 import android.content.ContentResolver;
+import android.content.Context;
 import android.content.CursorLoader;
 import android.content.Intent;
 import android.content.Loader;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -28,6 +30,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import org.apache.http.Header;
 import org.apache.http.HttpResponse;
 import org.apache.http.HttpStatus;
 import org.apache.http.StatusLine;
@@ -49,6 +52,7 @@ import java.util.List;
  */
 public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
 
+    private SharedPreferences authenticationData;
     /**
      * A dummy authentication store containing known user names and passwords.
      * TODO: remove after connecting to a real authentication system.
@@ -100,6 +104,9 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
 
         mLoginFormView = findViewById(R.id.login_form);
         mProgressView = findViewById(R.id.login_progress);
+
+        authenticationData = this.getSharedPreferences("com.groupngo.groupngo", Context.MODE_PRIVATE);
+
     }
 
     private void populateAutoComplete() {
@@ -297,6 +304,12 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
 
 //                    Cookie[] cookies = httpclient.getState().getCookies();
 //                    Log.d("LOGIN", String.valueOf(response.getHeaders("Set-Cookie")));
+
+                    Header[] headers = response.getHeaders("cuc");
+//                    Log.d("cuc", headers[0].getValue());
+                    if( headers[0].getValue().length()>0 )
+                        authenticationData.edit().putString("cuc", headers[0].getValue()).commit();
+
                 } else{
                     //Closes the connection.
                     response.getEntity().getContent().close();
@@ -338,6 +351,7 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
             super.onPostExecute(result);
 
             Log.d("Login", result);
+//            Log.d("cuc", authenticationData.getString("cuc", null));
 
             Intent i = new Intent(getApplicationContext(), MainActivity.class);
             startActivity(i);

@@ -5,6 +5,21 @@
     <string name="title_activity_main">GroupNGo</string>
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="welcome_title">Welcome to GroupNGo</string>
+    <string name="welcome_subtitle">A Georgia Tech Safety App</string>
 
+    <string name="search">Search</string>
+    <string name="cancel">Cancel</string>
+
+    <string name="search_title">Search Trips Near</string>
+    <string name="search_hint">Enter Location</string>
+
+    <string name="post_s_title">From</string>
+    <string name="post_e_title">To</string>
+    <string name="post_s_hint">Starting Location</string>
+    <string name="post_e_hint">Ending Location</string>
+    <string name="post">Post</string>
+
+    <string name="trip_detail_title">Trip Members</string>
+    <string name="join_leave">Join</string>
 </resources>

@@ -21,7 +21,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceLarge"
-                android:text="Welcome to GroupNGo"
+                android:text="@string/welcome_title"
                 android:id="@+id/welcome_title"
                 android:layout_gravity="center_horizontal" />
 
@@ -29,9 +29,11 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceMedium"
-                android:text="A Georgia Tech campus safety app"
+                android:text="@string/welcome_subtitle"
                 android:id="@+id/welcome_subtitle"
-                android:paddingBottom="10dip" />
+                android:paddingBottom="10dip"
+                android:layout_gravity="center_horizontal" />
+
 
             <AutoCompleteTextView android:id="@+id/email" android:layout_width="match_parent"
                 android:layout_height="wrap_content" android:hint="@string/prompt_email"
