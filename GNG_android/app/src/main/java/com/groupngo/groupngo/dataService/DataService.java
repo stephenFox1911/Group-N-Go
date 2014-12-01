@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.util.Log;
 
+import com.google.android.gms.maps.model.LatLng;
 import com.groupngo.groupngo.OnTaskCompleted;
 import com.groupngo.groupngo.TripFragment;
 
@@ -55,8 +56,8 @@ public class DataService {
 //        addItem("1", "2", "3");
     }
 
-    private static void addItem(String id, String slocation, String elocation) {
-        ITEMS.add(new TripItem(id, slocation, elocation));
+    private static void addItem(String id, String slocation, String elocation, LatLng sl, LatLng el) {
+        ITEMS.add(new TripItem(id, slocation, elocation, sl, el));
 //        try {
 //            String id = item.getString("ID");
 //            ITEM_MAP.put(id, item);
@@ -78,11 +79,15 @@ public class DataService {
         public String id;
         public String slocation;
         public String elocation;
+        public LatLng sl;
+        public LatLng el;
 
-        public TripItem(String id, String slocation, String elocation) {
+        public TripItem(String id, String slocation, String elocation, LatLng sl, LatLng el) {
             this.id = id;
             this.slocation = slocation;
             this.elocation = elocation;
+            this.sl = sl;
+            this.el = el;
         }
 
         @Override
@@ -162,7 +167,17 @@ public class DataService {
                     String slocation = trip.getJSONObject("slocation").getString("name");
                     String elocation = trip.getJSONObject("elocation").getString("name");
 
-                    addItem(tripID, slocation, elocation);
+                    Double sl_lat = trip.getJSONObject("slocation").getJSONObject("coords").getDouble("latitude");
+                    Double sl_lng = trip.getJSONObject("slocation").getJSONObject("coords").getDouble("longitude");
+                    Double el_lat = trip.getJSONObject("elocation").getJSONObject("coords").getDouble("latitude");
+                    Double el_lng = trip.getJSONObject("elocation").getJSONObject("coords").getDouble("longitude");
+                    Log.d("data", String.valueOf(sl_lat) + ", " + String.valueOf(sl_lng));
+                    LatLng sl = new LatLng(sl_lat, sl_lng);
+                    LatLng el = new LatLng(el_lat, el_lng);
+
+                    addItem(tripID, slocation, elocation, sl, el);
+//                    addItem(tripID, slocation, elocation);
+
                 }
             } catch (JSONException e) {
                 e.printStackTrace();
@@ -286,8 +301,15 @@ public class DataService {
                     String tripID = trip.getString("ID");
                     String slocation = trip.getJSONObject("slocation").getString("name");
                     String elocation = trip.getJSONObject("elocation").getString("name");
+                    Double sl_lat = trip.getJSONObject("slocation").getJSONObject("coords").getDouble("latitude");
+                    Double sl_lng = trip.getJSONObject("slocation").getJSONObject("coords").getDouble("longitude");
+                    Double el_lat = trip.getJSONObject("elocation").getJSONObject("coords").getDouble("latitude");
+                    Double el_lng = trip.getJSONObject("elocation").getJSONObject("coords").getDouble("longitude");
+                    LatLng sl = new LatLng(sl_lat, sl_lng);
+                    LatLng el = new LatLng(el_lat, el_lng);
+                    addItem(tripID, slocation, elocation, sl, el);
 
-                    addItem(tripID, slocation, elocation);
+//                    addItem(tripID, slocation, elocation);
                 }
             } catch (JSONException e) {
                 e.printStackTrace();

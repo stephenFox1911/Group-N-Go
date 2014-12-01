@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.app.ListFragment;
+import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.Log;
@@ -20,6 +21,9 @@ import com.groupngo.groupngo.dataService.DataService;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.List;
+import java.util.Map;
 
 /**
  * A fragment representing a list of Items.
@@ -149,6 +153,23 @@ public class TripFragment extends android.support.v4.app.ListFragment implements
                     public void onTaskCompleted() {
                         mSwipeRefreshLayout.setRefreshing(false);
                         arrayAdapter.notifyDataSetChanged();
+                        int l = DataService.ITEMS.size();
+//                        Log.d("trip", String.valueOf(l));
+
+                        List<Fragment> allFragments = getFragmentManager().getFragments();
+                        if (allFragments != null) {
+                            for (Fragment fragment : allFragments) {
+                                try {
+                                    MapFragment mapFrag = (MapFragment)fragment;
+                                    if (mapFrag.fragmentType == 1)
+                                        mapFrag.updateMarkers();
+                                } catch (Exception error) {
+
+                                }
+
+                            }
+                        }
+
                     }
                 }, cuc);
 //                mSwipeRefreshLayout.setRefreshing(false);

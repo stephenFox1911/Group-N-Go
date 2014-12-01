@@ -1,21 +1,35 @@
 package com.groupngo.groupngo;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.util.ArrayList;
+
+import org.apache.http.HttpResponse;
+import org.apache.http.HttpStatus;
+import org.apache.http.StatusLine;
+import org.apache.http.client.ClientProtocolException;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.json.JSONArray;
+import org.json.JSONObject;
+
 import android.app.Activity;
 import android.net.Uri;
 import android.os.Bundle;
-import android.app.Fragment;
+import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.support.v4.app.FragmentActivity;
+
+import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.SupportMapFragment;
-import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.groupngo.groupngo.dataService.DataService;
 
 
 /**
@@ -28,6 +42,9 @@ import com.google.android.gms.maps.model.MarkerOptions;
  */
 public class MapFragment extends android.support.v4.app.Fragment {
 
+    public int fragmentType;
+
+    private static final String SERVICE_BASE = "http://groupngo.website";
     static final LatLng HAMBURG = new LatLng(53.558, 9.927);
     static final LatLng KIEL = new LatLng(53.551, 9.993);
     private GoogleMap map;
@@ -76,13 +93,96 @@ public class MapFragment extends android.support.v4.app.Fragment {
 
     private void setUpMapIfNeeded() {
         // Do a null check to confirm that we have not already instantiated the map.
-        if (map == null) {
-            map = ((SupportMapFragment) getFragmentManager().findFragmentById(R.id.google_map)).getMap();
+        if (map == null)
+            map = ((SupportMapFragment) getFragmentManager().findFragmentById(R.id.map)).getMap();
             // Check if we were successful in obtaining the map.
             if (map != null) {
                 // The Map is verified. It is now safe to manipulate the map.
+                //test markers
+//                map = ((SupportMapFragment) getFragmentManager().findFragmentById(R.id.map)).getMap();
 
+                CameraUpdate center = CameraUpdateFactory.newLatLng(new LatLng(33.777420, -84.397850));
+                CameraUpdate zoom=CameraUpdateFactory.zoomTo(15);
+
+                map.moveCamera(center);
+                map.animateCamera(zoom);
+
+                for (int i = 0; i < DataService.ITEMS.size(); i++){
+                    Log.d("map", DataService.ITEMS.get(i).slocation);
+                    map.addMarker(new MarkerOptions()
+                            .position(DataService.ITEMS.get(i).sl)
+                            .title(DataService.ITEMS.get(i).slocation));
+                }
+//                Log.d("map", "adding markers");
+//                map.addMarker(new MarkerOptions()
+//                        .position(HAMBURG)
+//                        .title("Test1"));
+//                map.addMarker(new MarkerOptions()
+//                        .position(KIEL)
+//                        .title("Test2"));
+                //For starters, just show all start locations
+//                ArrayList<String> names = new ArrayList<String>();
+//                ArrayList<Double> coordinates = new ArrayList<Double>();
+//
+//                HttpClient httpclient = new DefaultHttpClient();
+//                HttpResponse response;
+//                String responseString = null;
+//                String url = SERVICE_BASE + "/api/trips";
+//
+//                try {
+//                    HttpGet request = new HttpGet(url);
+//                    response = httpclient.execute(request);
+//                    StatusLine statusline = response.getStatusLine();
+//                    if(statusline.getStatusCode() == HttpStatus.SC_OK){
+//                        ByteArrayOutputStream out = new ByteArrayOutputStream();
+//                        response.getEntity().writeTo(out);
+//                        out.close();
+//                        responseString = out.toString();
+//                        //We should have the response string now.
+//                        //need to parse JSON
+//                        //TODO: Is this supposed to be JSONArray or JSONObject?
+//                        JSONArray jArray = new JSONArray(responseString);
+//
+//                        //parse through array of locations
+//                        for(int i=0;i<jArray.length();i++){
+//                            JSONObject jdata = jArray.getJSONObject(i);
+//
+//                            JSONObject slocation = jdata.getJSONObject("slocation");
+//                            names.add(slocation.getString("name"));
+//
+//                            JSONObject coords = slocation.getJSONObject("coords");
+//                            coordinates.add(coords.getDouble("latitude"));
+//                            coordinates.add(coords.getDouble("longitude"));
+//                        }
+//
+//                    } else{
+//                        //Closes the connection.
+//                        response.getEntity().getContent().close();
+//                        throw new IOException(statusline.getReasonPhrase());
+//                    }
+//                } catch (ClientProtocolException e) {
+//                } catch (IOException e) {
+//                } catch (Exception e) {}
+//
+//
+//                //we should have all starting locations, now make markers
+//                for(int i=0;i<names.size();i++){
+//                    Log.d("map", coordinates.get(i*2).toString() + ", " + coordinates.get((i*2)+1).toString());
+//                    LatLng pos = new LatLng(coordinates.get(i*2), coordinates.get((i*2)+1));
+//                    map.addMarker(new MarkerOptions()
+//                            .position(pos)
+//                            .title(names.get(i)));
+//                }
             }
+
+    }
+
+    public void updateMarkers() {
+        for (int i = 0; i < DataService.ITEMS.size(); i++){
+            Log.d("map", DataService.ITEMS.get(i).slocation);
+            map.addMarker(new MarkerOptions()
+                    .position(DataService.ITEMS.get(i).sl)
+                    .title(DataService.ITEMS.get(i).slocation));
         }
     }
 
@@ -94,12 +194,16 @@ public class MapFragment extends android.support.v4.app.Fragment {
 
         View v = inflater.inflate(R.layout.fragment_map, container, false);
 
+        SupportMapFragment mapFrag = (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map);
+        if (mapFrag != null) {
+            map = mapFrag.getMap();
+            setUpMapIfNeeded();
 
-        MapFragment mapFrag = (MapFragment) getFragmentManager().findFragmentById(R.id.google_map);
-        if (mapFrag != null)
-            map = mapFrag.map;
+        }
         else
             Log.d("map", "no map found");
+
+
         return v;
     }
 

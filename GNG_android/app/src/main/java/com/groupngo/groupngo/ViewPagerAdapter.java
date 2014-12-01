@@ -36,6 +36,8 @@ public class ViewPagerAdapter extends FragmentPagerAdapter {
             // Open FragmentTab2.java
             case 1:
                 MapFragment mapTab = new MapFragment();
+                mapTab.fragmentType = 1;
+
                 return mapTab;
 
             // Open FragmentTab3.java
