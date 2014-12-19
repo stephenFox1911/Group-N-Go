@@ -168,7 +168,7 @@ router.get('/api/trips/:id', function(req, res){
 			.where("Users_Trips.Active = 1 AND Users_Trips.TripID = ?", tripid), "userids")
 		.join("Users", "", "userids.UserID = Users.ID")
 		.toString();
-	console.log(sql);
+//	console.log(sql);
 	connection.query(sql, function(err, results){
 		if(err){
 			return res.send(err);
@@ -280,14 +280,14 @@ router.post('/api/trips/:id', function(req, res){
 	});
 });
 
-//leave a trip
-router.delete('/api/trips/', function(req, res){
+//leave all trips
+router.post('/api/lravetrips/', function(req, res){
 	var h = req.headers;
 	if(h.cuc == null || h.cuc.length<=10){
                 console.log("bad user");
                 if(h.cuc != null){
-                        console.log(h.cuc.length);
-                        console.log(h.cuc);
+                 //       console.log(h.cuc.length);
+                 //       console.log(h.cuc);
                 }
                 return res.send({Success: 'False', Error: "Invalid user"});
         }	
@@ -301,7 +301,7 @@ function leaveTrips(userID){
 		.set("Active", 0)
 		.where("UserID = ?", userID)
 		.toString();
-	console.log(sql);
+//	console.log(sql);
 	connection.query(sql, function(err, results){
 		if(err){
 			return res.send(err);
