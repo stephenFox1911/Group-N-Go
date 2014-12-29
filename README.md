@@ -4,6 +4,9 @@ Group-N-Go
 Helping students navigate the Georgia Tech campus safely
 
 Stephen Fox
-Chris Gordan
+
+Chris Gordon
+
 Adam Yost
-Mickey
+
+Mickey Li
